@@ -1,0 +1,10 @@
+from django.urls import path
+
+from . import views
+from .views import OwnerCreateRideView
+
+urlpatterns = [
+    path('', views.index, name='index'),
+    path('userhome/', views.userhome, name='userhome'),
+    path('newride/', OwnerCreateRideView.as_view(), name='create_ide'),
+]

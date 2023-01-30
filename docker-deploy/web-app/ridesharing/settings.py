@@ -31,6 +31,8 @@ ALLOWED_HOSTS = ['vcm-30657.vm.duke.edu','vcm-30958.vm.duke.edu','127.0.0.1']
 # Application definition
 
 INSTALLED_APPS = [
+    'ride.apps.RideConfig',
+    'crispy_forms',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -69,14 +71,21 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'ridesharing.wsgi.application'
 
+#change dafalut redirect after login
+
+LOGIN_REDIRECT_URL = '/ride/userhome/'
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'ridedatabase',
+        'USER': 'sp645',
+        'PASSWORD': '568password',
+        'HOST:': '127.0.0.1',
+        'PORT': '5432',
     }
 }
 
@@ -105,7 +114,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'EST'
 
 USE_I18N = True
 
