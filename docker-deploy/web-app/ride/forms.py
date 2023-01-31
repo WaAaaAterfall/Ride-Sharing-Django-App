@@ -1,5 +1,5 @@
 from django import forms
-from .models import User
+from .models import User, Vehicle, Owner
 from django.contrib.auth.forms import UserCreationForm
 
 class UserRegisterForm(UserCreationForm):
@@ -19,6 +19,28 @@ class UserEditForm(forms.Form):
     class Meta:
         model = User
         fields = ['username', 'email', 'first_name', 'last_name']
+
+class RideCreateForm(forms.ModelForm):
+    addr = forms.CharField()
+    arrive_date = forms.DateField()
+    passenger_num = forms.IntegerField()
+    whether_share = forms.BooleanField()
+    max_share_num = forms.IntegerField()
+    required_special = forms.CharField()
+    
+    class Meta:
+        model = Owner
+        fields = ['addr', 'arrive_date', 'passenger_num', 'whether_share', 'max_share_num', 'required_special']
+
+
+class VehicleForm(forms.ModelForm):
+    type = forms.CharField()
+    plate = forms.CharField()
+    capacity = forms.IntegerField()
+    comment = forms.CharField()
+    class Meta:
+        model = Vehicle 
+        fields = ['type', 'plate', 'capacity', 'comment']
 
 # class DriverRegistrationForm(forms.Form):
 #     DOB = forms.DateField(label='Date of Birth',required=True,

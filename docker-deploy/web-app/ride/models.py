@@ -28,7 +28,16 @@ class Owner(models.Model):
     driver_license = models.CharField(default='', max_length=50, blank=True)
 
     def __str__ (self):
-        return "{" + self.addr + ", " + self.owner + "}"
+        return "{" + self.addr+ "}"
 
-    def get_absolute_url(self):
-        return reverse('userhome')
+    # def get_absolute_url(self):
+    #     return reverse('rideinfo')
+
+class Vehicle(models.Model):
+    owner = models.OneToOneField(User, on_delete=models.CASCADE)
+    type = models.CharField(default='Car',max_length=50)
+    plate = models.CharField(default='000',max_length=50)
+    capacity = models.IntegerField(default=4)
+    comment = models.CharField(default='000', max_length=100)
+    def __str__(self):
+        return f'{self.owner.username} Vehicle'
