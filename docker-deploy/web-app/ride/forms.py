@@ -1,6 +1,7 @@
 from django import forms
-from .models import User
+from .models import Driver, RideOrder
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 
 class UserRegisterForm(UserCreationForm):
     email = forms.EmailField()
@@ -11,7 +12,7 @@ class UserRegisterForm(UserCreationForm):
         model = User
         fields = ['username', 'email', 'password1', 'password2', 'first_name', 'last_name']
 
-class UserEditForm(forms.Form):
+class UserEditForm(forms.ModelForm):
     email = forms.EmailField()
     first_name = forms.CharField(max_length=100, required=True)
     last_name = forms.CharField(max_length=100,required=True)
@@ -20,18 +21,19 @@ class UserEditForm(forms.Form):
         model = User
         fields = ['username', 'email', 'first_name', 'last_name']
 
-# class DriverRegistrationForm(forms.Form):
-#     DOB = forms.DateField(label='Date of Birth',required=True,
-#                                 input_formats = ['%Y-%m-%d'],
-#                                 widget=DateInput(format='%Y-%m-%d'))
-#     licenseNumber = forms.CharField(label='License No.',required=True)
-#     VehicleType = forms.ChoiceField(label='Vehicle Type',choices=(("Sedan", "Sedan"),("SUV", "SUV")))
-#     brand = forms.CharField(label='Vehicle Brand',required=True)
-#     model = forms.CharField(label='Vehicle Model',required=True)
-#     plateNum = forms.CharField(label='Plate No.',required=True)
-#     max_pnum = forms.IntegerField(label='Max Passenger No.',required=True)
-#     special_info = forms.CharField(label='Special Info',required=False)
-    
-#     class Meta:
-#         model = Driver
-#         fields = ['DOB','licenseNum','Vtype','brand','model','plateNum','max_pnum','special_info']
+class RideCreateForm(forms.ModelForm):
+
+    class Meta:
+        model = RideOrder
+        fields = ['addr', 'arrive_date', 'passenger_num', 'sharable', 'max_share_num', 'required_special']
+
+
+class VehicleForm(forms.ModelForm):
+    plate = forms.CharField(label='License No.',required=True)
+    Vtype = forms.ChoiceField(label='Vehicle Type',choices=(("Sedan", "Sedan"),("SUV", "SUV")))
+    brand = forms.CharField(label='Vehicle Brand',required=True)
+    special_info = forms.CharField(label='Special Info',required=False)
+
+    class Meta:
+        model = Driver
+        fields = ['plate', 'capacity', 'Vtype', 'brand', 'special_info']

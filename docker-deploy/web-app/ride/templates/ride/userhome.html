@@ -1,5 +1,29 @@
 {% extends "ride/base.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
-    <h1>{{ user.username }}</h1>
+    <!-- <h1>{{ user.user_id }}</h1> -->
+    <h1>{{ user.id }}</h1>
+
+    <table border = "1">
+        <!-- tr表示每一行， td表示每一个元素 -->
+                <thead>
+                        <tr>
+                                <!-- tr表示table row， 指一行 -->
+                                <!-- th相当于是列表的头，告知这一列是什么元素 -->
+                                <th>Vehicle</th>
+                                <th>Address</th>
+                                <th>Owner</th>
+                        </tr>
+                </thead>
+        
+                <tbody>
+                    <tr>
+                        <td>{{vehicle.driver.username}}</td>
+                        <td>{{vehicle.plate}}</td>
+                        <td>{{vehicle.Vtype}}</td>
+                    </tr>
+                </tbody>
+        
+        </table>
+         
 {%endblock content%}
