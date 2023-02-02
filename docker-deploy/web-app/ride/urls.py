@@ -10,6 +10,6 @@ urlpatterns = [
     path('newride/', views.createride, name='createride'),
 
     path('rideinfo/', views.rideinfo, name='rideinfo'),
-    path('addvehicle/', views.addvehicle, name='addvehicle'),
+    path('addvehicle/', views.add_vehicle_info, name='addvehicle'),
     
 ]

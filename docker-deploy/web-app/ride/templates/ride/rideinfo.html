@@ -1,10 +1,6 @@
 {% extends 'ride/base.html' %}
 {% block content %}
 
-<p>
-  Please do not forget to click the complete button to finish this order!
-</p>
-
 <br><br>
 
 <table border = "1">
@@ -13,7 +9,8 @@
                 <tr>
                         <!-- tr表示table row， 指一行 -->
                         <!-- th相当于是列表的头，告知这一列是什么元素 -->
-                        <th>Status</th>
+                        <th>Date</th>
+                        <th>Address</th>
                         <th>Owner</th>
                 </tr>
         </thead>
@@ -22,8 +19,9 @@
           {% for ride in data %}
                 <tr>
                   <td>{{ ride.arrive_date }}</td>
-
                   <td>{{ ride.addr }}</td>
+                  <td>{{ride.owner.username}}</td>
+
                   
                 </tr>
           {% endfor %}
