@@ -1,5 +1,5 @@
 from django import forms
-from .models import Driver, RideOrder
+from .models import DriverVehicle, RideOrder
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
@@ -10,7 +10,7 @@ class UserRegisterForm(UserCreationForm):
     #is_driver = forms.BooleanField()
     class Meta:
         model = User
-        fields = ['username', 'email', 'password1', 'password2', 'first_name', 'last_name']
+        fields = ['username', 'email', 'first_name', 'last_name', 'password1', 'password2']
 
 class UserEditForm(forms.ModelForm):
     email = forms.EmailField()
@@ -25,8 +25,15 @@ class RideCreateForm(forms.ModelForm):
 
     class Meta:
         model = RideOrder
-        fields = ['addr', 'arrive_date', 'passenger_num', 'sharable', 'max_share_num', 'required_special']
+        fields = ['destination', 'arrive_date', 'passenger_num', 'sharable', 'max_share_num', 'required_special']
 
+class RideSearchForm(forms.Form):
+    destination = forms.CharField()
+    earliest_time = forms.DateTimeField(
+        input_formats = ['%Y-%m-%dT%H:%M'])
+    latest_time = forms.DateTimeField(
+        input_formats = ['%Y-%m-%dT%H:%M'])
+    passenger_num = forms.IntegerField()
 
 class VehicleForm(forms.ModelForm):
     plate = forms.CharField(label='License No.',required=True)
@@ -35,5 +42,5 @@ class VehicleForm(forms.ModelForm):
     special_info = forms.CharField(label='Special Info',required=False)
 
     class Meta:
-        model = Driver
+        model = DriverVehicle
         fields = ['plate', 'capacity', 'Vtype', 'brand', 'special_info']

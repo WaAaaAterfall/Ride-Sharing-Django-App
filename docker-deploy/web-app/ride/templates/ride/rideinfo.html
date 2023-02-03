@@ -19,14 +19,15 @@
           {% for ride in data %}
                 <tr>
                   <td>{{ ride.arrive_date }}</td>
-                  <td>{{ ride.addr }}</td>
-                  <td>{{ride.owner.username}}</td>
-
-                  
+                  <td>{{ ride.destination }}</td>
+                  <td>{{ ride.owner.username }}</td>
                 </tr>
           {% endfor %}
         </tbody>
 
 </table>
 
+<form method=""get" action= "/ride/userhome">
+        <button type="submit">Back to main</button>
+</form>
 {% endblock content %}

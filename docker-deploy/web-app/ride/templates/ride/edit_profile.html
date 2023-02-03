@@ -1,0 +1,16 @@
+{% extends "ride/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <div class="content-section">
+        <form method="POST">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <button class="btn btn-outline-info" type="submit"> Request </button>
+        </form>
+        <div class="border-top pt-3">
+            <small class="text-muted">
+                Back to main page <a class="ml-2" href="{% url 'userhome' %}">Back to main</a>
+            </small>
+        </div>
+    </div>
+{% endblock content%}
