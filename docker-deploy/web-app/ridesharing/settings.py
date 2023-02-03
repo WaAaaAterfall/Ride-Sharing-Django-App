@@ -82,7 +82,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'ridedatabase',
-        'USER': 'sp645',
+        'USER': 'rh328',
         'PASSWORD': '568password',
         'HOST:': '127.0.0.1',
         'PORT': '5432',

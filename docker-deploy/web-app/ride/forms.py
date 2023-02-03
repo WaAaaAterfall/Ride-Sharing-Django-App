@@ -29,7 +29,7 @@ class RideCreateForm(forms.ModelForm):
 
 
 class VehicleForm(forms.ModelForm):
-    plate = forms.CharField(label='License No.',required=True)
+    plate = forms.CharField(label='License Plate No.',required=True)
     Vtype = forms.ChoiceField(label='Vehicle Type',choices=(("Sedan", "Sedan"),("SUV", "SUV")))
     brand = forms.CharField(label='Vehicle Brand',required=True)
     special_info = forms.CharField(label='Special Info',required=False)
