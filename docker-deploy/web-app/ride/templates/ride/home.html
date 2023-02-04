@@ -8,28 +8,11 @@
   Please Login in first. Then you can see three choices on the menu, including "Start A Ride", "Find A Ride" and "Driver's Searching".
 </p>
 
+<form method=""get" action= "/login">
+  <button type="submit">Login</button>
+</form>
 
-<br>
-<p class = "main">
-  Start A Ride: Click this if you would like to start a ride and become the owner of this ride.
-</p>
-
-<br>
-
-<p class = "main">
-  Find A Ride: Click this if you would like to find a person whose destination is same as yours and share a ride.
-</p>
-
-<br>
-
-<p class = "main">
-  Driver's Searching: Click this if you want to work as a driver on our platform. Please register as a driver first!
-</p>
-
-<br>
-
-<p class = "main">
-  Hope you have a good experience with us!
-</p>
-
+<form method=""get" action= "{% url 'userhome' %}"">
+  <button type="submit">already log in? Go to your home page</button>
+</form>
 {% endblock content %}

@@ -1,0 +1,51 @@
+{% extends "ride/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <div class = "content-section">   
+        <form method = "POST">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class = "border-bottom mb-4">Search result for {{ user.username }}</legend>
+            </fieldset>
+            <table border = "1">
+                <thead>
+                        <tr>
+                                <th>ID</th>
+                                <th>Owner</th>
+                                <th>Destination</th>
+                                <th>Arrival Time</th>
+                                <th>passenger number</th>
+                                <th>Driver</th>
+                                <th>Status</th>
+                                <th>Sharable?</th>
+                                <th>Join the ride?</th>
+
+                        </tr>
+                </thead>
+        
+                <tbody>
+                    {% for ride in rides %}
+                    <tr>
+                        <td>{{ride.id}}</td>
+                        <td>{{ride.owner.username}}</td>
+                        <td>{{ride.destination}}</td>
+                        <td>{{ride.arrive_date}}</td>
+                        <td>{{ride.passenger_num}}</td>
+                        <td>{{ride.driver.username}}</td>
+                        <td>{{ride.status}}</td>
+                        <td>{{ride.sharable}}</td>
+                        <td><form method=""get" action= "{% url 'join_ride' ride.id %}">
+                                <button type="submit">Join</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+        </table>
+        <div class="border-top pt-3">
+            <small class="text-muted">
+                Back to main page? <a class="ml-2" href="{% url 'userhome' %}">All Rides</a>
+            </small>
+        </div>
+    </div>
+{%endblock content%}

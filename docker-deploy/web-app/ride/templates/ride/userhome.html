@@ -1,26 +1,48 @@
 {% extends "ride/base.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
-<h1>{{ user.name }}</h1>
+    <h1>{{ user.username }}</h1>
 
-
-<table border="1">
-        <thead>
-                <tr>
-                        <th>Vehicle</th>
-                        <th>Address</th>
-                        <th>Owner</th>
-                </tr>
-        </thead>
-
-        <tbody>
-                <tr>
+    <table border = "1">
+                <thead>
+                        <tr>
+                                <th>Vehicle</th>
+                                <th>Plate</th>
+                                <th>Type</th>
+                        </tr>
+                </thead>
+        
+                <tbody>
+                    <tr>
                         <td>{{vehicle.driver.username}}</td>
                         <td>{{vehicle.plate}}</td>
                         <td>{{vehicle.Vtype}}</td>
-                </tr>
-        </tbody>
+                    </tr>
+                </tbody>
+        
+        </table>
 
-</table>
+        <form method=""get" action= "/ride/edit_your_profile">
+                <button type="submit">Edit your personal profile</button>
+        </form>
 
+        <form method=""get" action= "/ride/newride">
+                <button type="submit">Request a Ride</button>
+        </form>
+
+        <form method=""get" action= "/ride/addvehicle">
+                <button type="submit">Join as a Driver</button>
+        </form>
+
+        <form method=""get" action= "/ride/user_search_ride">
+                <button type="submit">Search all the open ride</button>
+        </form>
+
+        <form method=""get" action= "/ride/your_ride">
+                <button type="submit">Check all your ride</button>
+        </form>
+
+        <form method=""get" action= "{% url 'logout' %}">
+                <button type="submit">Logout</button>
+        </form>
 {%endblock content%}
