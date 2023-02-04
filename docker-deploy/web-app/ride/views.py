@@ -306,11 +306,11 @@ def add_vehicle_info(request):
 @login_required()
 def vehicle_delete(request):
     vehicle = DriverVehicle.objects.get(driver=request.user)
-    vehicle.delete()
-    rides = RideOrder.objects.filter(driver=request.user)
+    rides = RideOrder.objects.filter(driver=vehicle)
     for ride in rides:
         ride.status = 'open'
         # ride.driver_id = ''
         ride.save()
+    vehicle.delete()
     messages.success(request, f'You have deleted your vehicle')
     return redirect('userhome')

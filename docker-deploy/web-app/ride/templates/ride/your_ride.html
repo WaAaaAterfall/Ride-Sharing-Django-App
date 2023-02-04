@@ -33,7 +33,7 @@
                         <td>{{ride.status}}</td>
                         <td>{{ride.sharable}}</td>
                         <td>{{ride.special_request}}</td>
-                        <td>{% for sharer in ride.sharer.definitions.all %}
+                        <td>{% for sharer in ride.sharer.all %}
                                 <p>{{sharer.id}} ,</p>
                                 {% endfor %}
                         </td>
