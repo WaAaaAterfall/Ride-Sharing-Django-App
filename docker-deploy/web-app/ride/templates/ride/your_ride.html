@@ -17,7 +17,7 @@
                                 <th>Sharable?</th>
                                 <th>sharers</th>
                                 <th>Edit-Ride-Info</th>
-                                <th>Complete-the-ride</th>
+                                <th>Delete-the-ride</th>
 
                         </tr>
                 </thead>
@@ -33,7 +33,10 @@
                         <td>{{ride.driver.username}}</td>
                         <td>{{ride.status}}</td>
                         <td>{{ride.sharable}}</td>
-                        <td>{{ride.sharer}}</td>
+                        <td>{% for sharer in ride.sharer.definitions.all %}
+                                <p>{{sharer.id}} ,</p>
+                                {% endfor %} 
+                        </td>
                         {% if ride.status == 'open' %}
                                 <td><form method="get" action= "{% url 'edit_ride' ride.id %}">
                                         <button type="submit">Edit</button>
@@ -42,9 +45,9 @@
                         {% else %} 
                                 <td>No longer editable</td>
                         {% endif %}
-                        <td><form method="get" action= "{% url 'complete_ride' ride.id %}">
-                                <button type="submit">Complete</button>
-                            </form>
+                        <td><form method="get" action= "{% url 'owner_delete' ride.id %}">
+                                <button type="submit">Delete</button>
+                        </form>
                         </td>
                     </tr>
                     {% endfor %}
@@ -63,6 +66,7 @@
                                 <th>Arrival Time</th>
                                 <th>Driver</th>
                                 <th>Status</th>
+                                <th>Leave the ride</th>
                         </tr>
                 </thead>
         
@@ -74,6 +78,14 @@
                         <td>{{ride.arrive_date}}</td>
                         <td>{{ride.driver.username}}</td>
                         <td>{{ride.status}}</td>
+                        {% if ride.status == 'open' %}
+                                <td><form method="get" action= "{% url 'leave_ride' ride.id %}">
+                                        <button type="submit">Leave</button>
+                                </form>
+                                </td>
+                        {% else %} 
+                                <td>You can no longer leave the ride</td>
+                        {% endif %}
                     </tr>
                     {% endfor %}
                 </tbody>

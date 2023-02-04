@@ -37,7 +37,7 @@
                             <td>You can't join your own ride</td>
                         {% else %} 
                             <td><form method="get" action= "{% url 'join_ride' ride.id %}">
-                                <button type="submit">Edit</button>
+                                <button type="submit">Join</button>
                             </form>
                             </td>
                         {% endif %}

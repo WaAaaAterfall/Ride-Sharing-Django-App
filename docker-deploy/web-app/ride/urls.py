@@ -15,5 +15,7 @@ urlpatterns = [
     path('user_search_ride/', views.user_search_ride, name = 'user_ride_search'),
     path('ride_search_result/', views.search_open_result, name = 'ride_search_result'),
     path('edit_ride/<int:ride_id>/', views.ride_modify, name = 'edit_ride'),
-    path('join_ride/<int:ride_id>/', views.sharer_join, name = 'join_ride')
+    path('join_ride/<int:ride_id>/', views.sharer_join, name = 'join_ride'),
+    path('leave_ride/<int:ride_id>/', views.sharer_leave, name = 'leave_ride'),
+    path('delete_ride/<int:ride_id>/', views.owner_delete, name='owner_delete')
 ]
