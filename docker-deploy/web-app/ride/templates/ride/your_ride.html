@@ -1,97 +1,111 @@
 {% extends "ride/base.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
-    <h1>{{ user.username }}</h1>
+<h1>{{ user.username }}</h1>
 
-    <p>The ride you own</p>
-    <table border = "1">
-                <thead>
-                        <tr>
-                                <th>ID</th>
-                                <th>Owner</th>
-                                <th>Destination</th>
-                                <th>Arrival-Time</th>
-                                <th>passenger-number</th>
-                                <th>Driver</th>
-                                <th>Status</th>
-                                <th>Sharable?</th>
-                                <th>sharers</th>
-                                <th>Edit-Ride-Info</th>
-                                <th>Delete-the-ride</th>
+<p>The ride you own</p>
+<table border="1">
+        <thead>
+                <tr>
+                        <th>Owner</th>
+                        <th>Destination</th>
+                        <th>Arrival Time</th>
+                        <th>Passenger Number</th>
+                        <th>Require Vehicle Type</th>
+                        <th>Order Status</th>
+                        <th>Sharable?</th>
+                        <th>Special Request</th>
+                        <th>Sharers</th>
+                        <th>Driver</th>
+                        <th>Edit-Ride-Info</th>
+                        <th>Delete-the-ride</th>
+                </tr>
+        </thead>
 
-                        </tr>
-                </thead>
-        
-                <tbody>
-                    {% for ride in owner_ride %}
-                    <tr>
-                        <td>{{ride.id}}</td>
+        <tbody>
+                {% for ride in owner_ride %}
+                <tr>
                         <td>{{ride.owner.username}}</td>
                         <td>{{ride.destination}}</td>
                         <td>{{ride.arrive_date}}</td>
                         <td>{{ride.passenger_num}}</td>
-                        <td>{{ride.driver.username}}</td>
+                        <td>{{ride.vehicle_type}}</td>
                         <td>{{ride.status}}</td>
                         <td>{{ride.sharable}}</td>
+                        <td>{{ride.special_request}}</td>
                         <td>{% for sharer in ride.sharer.definitions.all %}
                                 <p>{{sharer.id}} ,</p>
-                                {% endfor %} 
+                                {% endfor %}
                         </td>
+                        <td>{{ride.driver.username}}</td>
                         {% if ride.status == 'open' %}
-                                <td><form method="get" action= "{% url 'edit_ride' ride.id %}">
+                        <td>
+                                <form method="get" action="{% url 'edit_ride' ride.id %}">
                                         <button type="submit">Edit</button>
                                 </form>
-                                </td>
-                        {% else %} 
-                                <td>No longer editable</td>
-                        {% endif %}
-                        <td><form method="get" action= "{% url 'owner_delete' ride.id %}">
-                                <button type="submit">Delete</button>
-                        </form>
                         </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-        </table>
-    <p>   </p>
-    <p>The ride you share</p>
-    <table border = "1">
-        <!-- tr表示每一行， td表示每一个元素 -->
-                <thead>
-                        <tr>
-                                <!-- tr表示table row， 指一行 -->
-                                <!-- th相当于是列表的头，告知这一列是什么元素 -->
-                                <th>Owner</th>
-                                <th>Destination</th>
-                                <th>Arrival Time</th>
-                                <th>Driver</th>
-                                <th>Status</th>
-                                <th>Leave the ride</th>
-                        </tr>
-                </thead>
-        
-                <tbody>
-                    {% for ride in sharer_ride %}
-                    <tr>
+                        {% else %}
+                        <td>No longer editable</td>
+                        {% endif %}
+                        <td>
+                                <form method="get" action="{% url 'owner_delete' ride.id %}">
+                                        <button type="submit">Delete</button>
+                                </form>
+                        </td>
+                </tr>
+                {% endfor %}
+        </tbody>
+</table>
+<p> </p>
+<p>The ride you share</p>
+<table border="1">
+        <thead>
+                <tr>
+                        <th>Owner</th>
+                        <th>Destination</th>
+                        <th>Arrival Time</th>
+                        <th>Passenger Number</th>
+                        <th>Require Vehicle Type</th>
+                        <th>Order Status</th>
+                        <th>Sharable?</th>
+                        <th>Special Request</th>
+                        <th>Sharers</th>
+                        <th>Driver</th>
+                        <th>Leave the Ride</th>
+                </tr>
+        </thead>
+
+        <tbody>
+                {% for ride in sharer_ride %}
+                <tr>
                         <td>{{ride.owner.username}}</td>
                         <td>{{ride.destination}}</td>
                         <td>{{ride.arrive_date}}</td>
-                        <td>{{ride.driver.username}}</td>
+                        <td>{{ride.passenger_num}}</td>
+                        <td>{{ride.vehicle_type}}</td>
                         <td>{{ride.status}}</td>
+                        <td>{{ride.sharable}}</td>
+                        <td>{{ride.special_request}}</td>
+                        <td>{% for sharer in ride.sharer.definitions.all %}
+                                <p>{{sharer.id}} ,</p>
+                                {% endfor %}
+                        </td>
+                        <td>{{ride.driver.username}}</td>
                         {% if ride.status == 'open' %}
-                                <td><form method="get" action= "{% url 'leave_ride' ride.id %}">
+                        <td>
+                                <form method="get" action="{% url 'leave_ride' ride.id %}">
                                         <button type="submit">Leave</button>
                                 </form>
-                                </td>
-                        {% else %} 
-                                <td>You can no longer leave the ride</td>
+                        </td>
+                        {% else %}
+                        <td>You can no longer leave the ride</td>
                         {% endif %}
-                    </tr>
-                    {% endfor %}
-                </tbody>
-        </table>
-        
-<form method=""get" action= "/ride/userhome">
+                </tr>
+                {% endfor %}
+        </tbody>
+</table>
+
+<form method="get" action="/ride/userhome">
         <button type="submit">Back to main</button>
 </form>
 

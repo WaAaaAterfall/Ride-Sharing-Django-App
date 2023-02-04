@@ -7,7 +7,7 @@ class UserRegisterForm(UserCreationForm):
     email = forms.EmailField()
     first_name = forms.CharField(max_length=100, required=True)
     last_name = forms.CharField(max_length=100,required=True)
-    #is_driver = forms.BooleanField()
+
     class Meta:
         model = User
         fields = ['username', 'email', 'first_name', 'last_name', 'password1', 'password2']
@@ -22,10 +22,11 @@ class UserEditForm(forms.ModelForm):
         fields = ['username', 'email', 'first_name', 'last_name']
 
 class RideCreateForm(forms.ModelForm):
+    vehicle_type = forms.ChoiceField(label='Vehicle Type',choices=(("None", "None"), ("Sedan", "Sedan"),("SUV", "SUV"), ("Hatchback", "Hatchback")), required=False)
 
     class Meta:
         model = RideOrder
-        fields = ['destination', 'arrive_date', 'passenger_num', 'sharable', 'max_share_num', 'required_special']
+        fields = ['destination', 'arrive_date', 'passenger_num', 'sharable', 'vehicle_type', 'special_request']
 
 class RideSearchForm(forms.Form):
     destination = forms.CharField()
@@ -41,14 +42,12 @@ class DriverSearchForm(forms.Form):
         input_formats = ['%Y-%m-%dT%H:%M'])
     latest_time = forms.DateTimeField(
         input_formats = ['%Y-%m-%dT%H:%M'])
-    passenger_num = forms.IntegerField()
 
 class VehicleForm(forms.ModelForm):
     plate = forms.CharField(label='License Plate No.',required=True)
-    Vtype = forms.ChoiceField(label='Vehicle Type',choices=(("Sedan", "Sedan"),("SUV", "SUV")))
-    brand = forms.CharField(label='Vehicle Brand',required=True)
+    vehicle_type = forms.ChoiceField(label='Vehicle Type',choices=(("Sedan", "Sedan"),("SUV", "SUV"), ("Hatchback", "Hatchback")))
     special_info = forms.CharField(label='Special Info',required=False)
 
     class Meta:
         model = DriverVehicle
-        fields = ['plate', 'capacity', 'Vtype', 'brand', 'special_info']
+        fields = ['plate', 'capacity', 'vehicle_type', 'special_info']

@@ -15,13 +15,14 @@
             <th>Vehicle type</th>
             <th>Driver</th>
             <th>Status</th>
+            <th>Confirm ride</th>
             <th>Sharable?</th>
             <th>sharers</th>
         </tr>
     </thead>
 
     <tbody>
-        {% for ride in driver_ride %}
+        {% for ride in rides %}
         <tr>
             <td>{{ride.id}}</td>
             <td>{{ride.owner.username}}</td>
@@ -30,10 +31,15 @@
             <td>{{ride.passenger_num}}</td>
             <td>{{ride.vehicle_type}}</td>
             <td>{{ride.driver.username}}</td>
-            <td>{{ride.status}}
-                <form method="get" action="{% url 'complete_ride' ride.id %}">
-                    <button type="submit">Complete</button>
+            <td>{{ride.status}}</td>
+            <td>
+                {% if ride.owner == user %}
+                You cannot confirm this Ride
+                {% else %}
+                <form method="get" action="{% url 'confirm_ride' ride.id %}">
+                    <button type="submit">Confirm</button>
                 </form>
+                {% endif %}
             </td>
             <td>{{ride.sharable}}</td>
             <td>{{ride.sharer}}</td>

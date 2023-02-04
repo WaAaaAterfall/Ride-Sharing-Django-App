@@ -15,7 +15,16 @@
             <button type="submit">Edit your vehicle information</button>
         </form>
 
-        <form method="get" action= "{% url 'logout' %}">
-                <button type="submit">Logout</button>
+        <form method="get" action= "{% url 'userhome' %}">
+                <button type="submit">Back to user home</button>
         </form>
+
+        <div class="border-top pt-3">
+                <small class="text-muted">
+                    No longer want to be a driver?  
+                    <form method="get" action= "/ride/vehicle_delete">
+                        <button type="submit">Delete your driver profile</button>
+                    </form>
+                </small>
+        </div>
 {%endblock content%}

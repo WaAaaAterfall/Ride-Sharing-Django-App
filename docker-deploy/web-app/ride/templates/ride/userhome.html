@@ -2,7 +2,7 @@
 {% load crispy_forms_tags %}
 {% block content %}
     <h1>{{ user.username }}</h1>
-    {% if vehicle.driver.username %}
+    {% if vehicle.driver %}
     <table border = "1">
                 <thead>
                         <tr>
@@ -16,41 +16,41 @@
                     <tr>
                         <td>{{vehicle.driver.username}}</td>
                         <td>{{vehicle.plate}}</td>
-                        <td>{{vehicle.Vtype}}</td>
+                        <td>{{vehicle.vehicle_type}}</td>
                     </tr>
                 </tbody>
         
         </table>
 
-        <form method=""get" action= "/ride/driverhome">
+        <form method="get" action= "/ride/driverhome">
                 <button type="submit">My driver page</button>
         </form>
         {% endif %}
 
 
-        <form method=""get" action= "/ride/edit_your_profile">
+        <form method="get" action= "/ride/edit_your_profile">
                 <button type="submit">Edit your personal profile</button>
         </form>
 
-        <form method=""get" action= "/ride/newride">
+        <form method="get" action= "/ride/newride">
                 <button type="submit">Request a Ride</button>
         </form>
 
-        {% if not vehicle.driver.username %}
-        <form method=""get" action= "/ride/addvehicle">
+        {% if not vehicle.driver%}
+        <form method="get" action= "/ride/addvehicle">
                 <button type="submit">Join as a Driver</button>
         </form>
         {% endif %}
 
-        <form method=""get" action= "/ride/user_search_ride">
+        <form method="get" action= "/ride/user_search_ride">
                 <button type="submit">Search all the open ride</button>
         </form>
 
-        <form method=""get" action= "/ride/your_ride">
+        <form method="get" action= "/ride/your_ride">
                 <button type="submit">Check all your ride</button>
         </form>
 
-        <form method=""get" action= "{% url 'logout' %}">
+        <form method="get" action= "{% url 'logout' %}">
                 <button type="submit">Logout</button>
         </form>
 {%endblock content%}
