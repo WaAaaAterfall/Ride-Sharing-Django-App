@@ -86,11 +86,11 @@
                         <td>{{ride.status}}</td>
                         <td>{{ride.sharable}}</td>
                         <td>{{ride.special_request}}</td>
-                        <td>{% for sharer in ride.sharer.definitions.all %}
-                                <p>{{sharer.id}} ,</p>
+                        <td>{% for sharer in ride.sharer.all %}
+                                <p>{{sharer.username}}</p>
                                 {% endfor %}
                         </td>
-                        <td>{{ride.driver.username}}</td>
+                        <td>{{ride.driver.driver.username}}</td>
                         {% if ride.status == 'open' %}
                         <td>
                                 <form method="get" action="{% url 'leave_ride' ride.id %}">

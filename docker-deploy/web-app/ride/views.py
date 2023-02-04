@@ -194,7 +194,8 @@ def driver_search(request):
 @login_required()
 def driver_ride(request):
     try:
-        driver_ride = RideOrder.objects.filter(driver=request.user)
+        vehicle = DriverVehicle.objects.filter(driver=request.user).first()
+        driver_ride = RideOrder.objects.filter(driver=vehicle)
     except RideOrder.DoesNotExist:
         driver_ride = None
 
@@ -221,17 +222,31 @@ def confirm_ride(request, ride_id):
     ride = RideOrder.objects.filter(pk=ride_id).first()
     ride.status='confirmed'
     vehicle = DriverVehicle.objects.get(driver=request.user)
-    ride.driver = request.user
+    ride.driver = vehicle
     ride.save()
     messages.success(request, f'You have comfirmed the ride')
     # send email
+    mail_list = []
+    mail_list.append(ride.owner.email)
+    for user in ride.sharer.all():
+        mail_list.append(user.email)
+    
+    message = "Your ride has been confirmed by driver " + request.user.username + \
+                ".\nHere is your ride information.\n " + \
+                "Ride destionation: " + ride.destination + "\n"+ \
+                "Driver plate number: " + ride.driver.plate + "\n" + \
+                "Vehicle type: " + ride.driver.vehicle_type + "\n" + \
+                "Enjoy your ride!\n\n" + \
+                "Your best service team ever :)"
+
     send_mail(
-        'Here is the message',
-        'As a ride-owner, your ride has been comfirmed',
+        'Your ride has been confirmed',
+        message,
         settings.EMAIL_HOST_USER,
-        [ride.owner.email],
+        mail_list,
         fail_silently=False,
     )
+
     return redirect('driver_ride')
 
 @login_required()
