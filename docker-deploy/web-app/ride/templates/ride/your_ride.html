@@ -33,16 +33,16 @@
                         <td>{{ride.driver.username}}</td>
                         <td>{{ride.status}}</td>
                         <td>{{ride.sharable}}</td>
-                        <td>{{ride.sharer_name}}</td>
+                        <td>{{ride.sharer}}</td>
                         {% if ride.status == 'open' %}
-                                <td><form method=""get" action= "{% url 'edit_ride' ride.id %}">
+                                <td><form method="get" action= "{% url 'edit_ride' ride.id %}">
                                         <button type="submit">Edit</button>
                                 </form>
                                 </td>
                         {% else %} 
                                 <td>No longer editable</td>
                         {% endif %}
-                        <td><form method=""get" action= "{% url 'complete_ride' ride.id %}">
+                        <td><form method="get" action= "{% url 'complete_ride' ride.id %}">
                                 <button type="submit">Complete</button>
                             </form>
                         </td>

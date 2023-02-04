@@ -7,6 +7,7 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from .models import RideOrder, DriverVehicle
+#from django.db.models import Q
 
 
 def index(request):
@@ -45,7 +46,7 @@ def userhome(request):
 @login_required()
 def edit_profile(request):
     if request.method == 'POST':
-        form = UserEditForm(request.POST, request.POST, instance=request.user)
+        form = UserEditForm(request.POST, instance=request.user)
         if form.is_valid():
             data = form.save(commit=False)
             data.user = request.user
@@ -69,13 +70,13 @@ def create_ride(request):
     if request.method == 'POST':
         form = RideCreateForm(request.POST)
         if form.is_valid():
-            ride.destination = form.cleaned_data['destination']
-            ride.arrive_date = form.cleaned_data['arrive_date']
+            ride.destination = request.POST['destination']
+            ride.arrive_date = request.POST['arrive_date']
             ride.owner = request.user
-            ride.passenger_num = form.cleaned_data['passenger_num']
-            ride.required_special = form.cleaned_data['required_special']
-            ride.max_share_num = form.cleaned_data['max_share_num']
-            ride.sharable = form.cleaned_data['sharable']
+            ride.passenger_num = request.POST['passenger_num']
+            ride.required_special = request.POST['required_special']
+            ride.max_share_num = request.POST['max_share_num']
+            ride.sharable = request.POST['sharable']
             ride.status = 'open'
             ride.save()
             messages.success(request, f'Your ride information has been added')
@@ -90,28 +91,32 @@ def create_ride(request):
 def user_search_ride(request):
     if(request.method == 'POST'):
         form = RideSearchForm(request.POST)
-        #ride = None
         if form.is_valid():
-            dest = form.cleaned_data['destination']
-            earliest_time =  form.cleaned_data['earliest_time']
-            latest_time = form.cleaned_data['latest_time']
-            passenger_num = form.cleaned_data['passenger_num']
-            ride = RideOrder.objects.filter(destination = dest, 
-                                            status = 'open', 
-                                            sharable = True, 
-                                            arrive_date__range=(earliest_time,latest_time),
-                                            passenger_num__gte = passenger_num)
-            return render(request, 'ride/ride_search_result.html', {'rides':ride})
+            request.session['destination'] = request.POST['destination']
+            request.session['earliest_time'] = request.POST['earliest_time']
+            request.session['latest_time'] = request.POST['latest_time']
+            request.session['passenger_num'] = request.POST['passenger_num']
+            return redirect('ride_search_result')
     else :
         form = RideSearchForm()
-        return render(request, 'ride/user_search.html', {'form':form})
+    return render(request, 'ride/user_search.html', {'form':form})
+
+def search_open_result(request):
+    dest = request.session.get('destination')
+    earliest_time = request.session.get('earliest_time')
+    latest_time = request.session.get('latest_time')
+    passenger_num = request.session.get('passenger_num')
+    rides = RideOrder.objects.filter(destination = dest, 
+                                    status = 'open', 
+                                    sharable = True, 
+                                    arrive_date__range=(earliest_time,latest_time),
+                                    passenger_num__gte = passenger_num)
+    return render(request, 'ride/ride_search_result.html', {'rides':rides})
 
 @login_required()
 def ride_modify(request, ride_id):
     if request.method == 'POST':
         ride = RideOrder.objects.filter(pk=ride_id).first()
-        print(ride.status)
-        print("aaa")
         if ride.status == 'open':
             form = RideCreateForm(request.POST, instance=ride)
             if form.is_valid():
@@ -123,7 +128,6 @@ def ride_modify(request, ride_id):
             return redirect('your_ride')       
     else:
         ride = RideOrder.objects.filter(pk=ride_id).first()
-        #print(ride.)
         form = RideCreateForm(instance=ride)
 
     return render(request, 'ride/edit_ride.html', {'form':form})
@@ -147,7 +151,13 @@ def search_owner_sharer_ride(request):
 #TODO: buggggggs
 @login_required()
 def sharer_join(request, ride_id):
-    ride = RideOrder.objects.filter(pk=ride_id)
+    ride = RideOrder.objects.filter(pk=ride_id).first()
+    if request.user in ride.sharer.all():
+        messages.warning(request, f'Your already joined the ride as a sharer')
+        return redirect('your_ride')
+    elif request.user == ride.owner:
+        messages.warning(request, f'Your cannot join your own ride')
+        return redirect('your_ride')
     ride.sharer.add(request.user)
     ride.save()
     return render(request, 'ride/join_ride.html')
@@ -166,10 +176,10 @@ def add_vehicle_info(request):
         form = VehicleForm(request.POST)
         if form.is_valid():
             vehicle.driver = request.user
-            vehicle.plate = form.cleaned_data['plate']
-            vehicle.Vtype = form.cleaned_data['Vtype']
-            vehicle.brand = form.cleaned_data['brand']
-            vehicle.special_info = form.cleaned_data['special_info']
+            vehicle.plate = request.POST['plate']
+            vehicle.Vtype = request.POST['Vtype']
+            vehicle.brand = request.POST['brand']
+            vehicle.special_info = request.POST['special_info']
             vehicle.save()
             messages.success(request, f'Your vehicle information has been updated')
             return redirect('userhome')

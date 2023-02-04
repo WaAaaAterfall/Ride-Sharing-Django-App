@@ -1,24 +1,22 @@
 {% extends "ride/base.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
-    <div class = "content-section">   
-        <form method = "POST">
-            {% csrf_token %}
-            <fieldset class="form-group">
-                <legend class = "border-bottom mb-4">Search result for {{ user.username }}</legend>
-            </fieldset>
-            <table border = "1">
+    <h1>{{ user.username }}</h1>
+
+    <p>The ride you own</p>
+    <table border = "1">
                 <thead>
                         <tr>
                                 <th>ID</th>
                                 <th>Owner</th>
                                 <th>Destination</th>
-                                <th>Arrival Time</th>
-                                <th>passenger number</th>
+                                <th>Arrival-Time</th>
+                                <th>passenger-number</th>
                                 <th>Driver</th>
                                 <th>Status</th>
                                 <th>Sharable?</th>
-                                <th>Join the ride?</th>
+                                <th>sharers</th>
+                                <th>Join the ride</th>
 
                         </tr>
                 </thead>
@@ -34,18 +32,23 @@
                         <td>{{ride.driver.username}}</td>
                         <td>{{ride.status}}</td>
                         <td>{{ride.sharable}}</td>
-                        <td><form method=""get" action= "{% url 'join_ride' ride.id %}">
-                                <button type="submit">Join</button>
+                        <td>{{ride.sharer}}</td>
+                        {% if ride.owner == user %}
+                            <td>You can't join your own ride</td>
+                        {% else %} 
+                            <td><form method="get" action= "{% url 'join_ride' ride.id %}">
+                                <button type="submit">Edit</button>
                             </form>
-                        </td>
+                            </td>
+                        {% endif %}
                     </tr>
                     {% endfor %}
                 </tbody>
         </table>
-        <div class="border-top pt-3">
-            <small class="text-muted">
-                Back to main page? <a class="ml-2" href="{% url 'userhome' %}">All Rides</a>
-            </small>
-        </div>
-    </div>
+    <p>   </p>
+        
+<form method=""get" action= "/ride/userhome">
+        <button type="submit">Back to main</button>
+</form>
+
 {%endblock content%}
