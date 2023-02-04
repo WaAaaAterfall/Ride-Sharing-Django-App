@@ -34,9 +34,13 @@ def home(request):
 def userhome(request):
     vehicle = Driver.objects.get(pk=request.user.id)
     return render(request, 'ride/userhome.html', {'vehicle': vehicle})
+    
+def driverhome(request):
+    vehicle = Driver.objects.get(pk=request.user.id)
+    return render(request, 'ride/driverhome.html', {'vehicle': vehicle})
 
 def rideinfo(request):
-    data = RideOrder.objects.all()
+    data = RideOrder.objects.filter(owner_id=request.user.id)
 
     return render(request, 'ride/rideinfo.html', {'data': data})
 
@@ -75,7 +79,7 @@ def add_vehicle_info(request):
             vehicle.special_info = form.cleaned_data['special_info']
             vehicle.save()
             messages.success(request, f'Your vehicle information has been updated')
-            return redirect('userhome')
+            return redirect('driverhome')
     else:
         form = VehicleForm()
 
