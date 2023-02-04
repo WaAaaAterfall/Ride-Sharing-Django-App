@@ -5,8 +5,8 @@ from .forms import UserRegisterForm, UserEditForm, VehicleForm, RideCreateForm, 
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
-from django.utils.decorators import method_decorator
 from .models import RideOrder, DriverVehicle
+#from django.db.models import Q
 
 
 def index(request):
@@ -50,7 +50,7 @@ def driverhome(request):
 @login_required()
 def edit_profile(request):
     if request.method == 'POST':
-        form = UserEditForm(request.POST, request.POST, instance=request.user)
+        form = UserEditForm(request.POST, instance=request.user)
         if form.is_valid():
             data = form.save(commit=False)
             data.user = request.user
@@ -90,33 +90,55 @@ def create_ride(request):
 
     return render(request, 'ride/newride.html', {'form' : form})
 
-#TODO: buuuuuuuuuuuuuuuugs here
 @login_required()
 def user_search_ride(request):
-    if(request.method == 'POST'):
-        form = RideSearchForm(request.POST)
-        #ride = None
-        if form.is_valid():
-            dest = form.cleaned_data['destination']
-            earliest_time =  form.cleaned_data['earliest_time']
-            latest_time = form.cleaned_data['latest_time']
-            passenger_num = form.cleaned_data['passenger_num']
-            ride = RideOrder.objects.filter(destination = dest, 
-                                            status = 'open', 
-                                            sharable = True, 
-                                            arrive_date__range=(earliest_time,latest_time),
-                                            passenger_num__gte = passenger_num)
-            return render(request, 'ride/ride_search_result.html', {'rides':ride})
-    else :
-        form = RideSearchForm()
-        return render(request, 'ride/user_search.html', {'form':form})
+     if(request.method == 'POST'):
+         form = RideSearchForm(request.POST)
+         #ride = None
+         if form.is_valid():
+             dest = form.cleaned_data['destination']
+             earliest_time =  form.cleaned_data['earliest_time']
+             latest_time = form.cleaned_data['latest_time']
+             passenger_num = form.cleaned_data['passenger_num']
+             ride = RideOrder.objects.filter(destination = dest, 
+                                             status = 'open', 
+                                             sharable = True, 
+                                             arrive_date__range=(earliest_time,latest_time),
+                                             passenger_num__gte = passenger_num)
+             return render(request, 'ride/ride_search_result.html', {'rides':ride})
+     else :
+         form = RideSearchForm()
+         return render(request, 'ride/user_search.html', {'form':form})
+# def user_search_ride(request):
+#     if(request.method == 'POST'):
+#         form = RideSearchForm(request.POST)
+#         if form.is_valid():
+#             request.session['destination'] = request.POST['destination']
+#             request.session['earliest_time'] = request.POST['earliest_time']
+#             request.session['latest_time'] = request.POST['latest_time']
+#             request.session['passenger_num'] = request.POST['passenger_num']
+#             return redirect('ride_search_result')
+#     else :
+#         form = RideSearchForm()
+#     return render(request, 'ride/user_search.html', {'form':form})
+
+@login_required()
+def search_open_result(request):
+    dest = request.session.get('destination')
+    earliest_time = request.session.get('earliest_time')
+    latest_time = request.session.get('latest_time')
+    passenger_num = request.session.get('passenger_num')
+    rides = RideOrder.objects.filter(destination = dest, 
+                                    status = 'open', 
+                                    sharable = True, 
+                                    arrive_date__range=(earliest_time,latest_time),
+                                    passenger_num__gte = passenger_num)
+    return render(request, 'ride/ride_search_result.html', {'rides':rides})
 
 @login_required()
 def ride_modify(request, ride_id):
     if request.method == 'POST':
         ride = RideOrder.objects.filter(pk=ride_id).first()
-        print(ride.status)
-        print("aaa")
         if ride.status == 'open':
             form = RideCreateForm(request.POST, instance=ride)
             if form.is_valid():
@@ -128,11 +150,9 @@ def ride_modify(request, ride_id):
             return redirect('your_ride')       
     else:
         ride = RideOrder.objects.filter(pk=ride_id).first()
-        #print(ride.)
         form = RideCreateForm(instance=ride)
 
     return render(request, 'ride/edit_ride.html', {'form':form})
-    #return HttpResponseRedirect(reverse('edit_ride', args=(ride_id,)))
 
 @login_required()
 def search_owner_sharer_ride(request):
@@ -173,20 +193,39 @@ def driver_search(request):
 def driver_ride(request):
     
 
-#TODO: buggggggs
 @login_required()
 def sharer_join(request, ride_id):
-    ride = RideOrder.objects.filter(pk=ride_id)
+    ride = RideOrder.objects.filter(pk=ride_id).first()
+    if request.user in ride.sharer.all():
+        messages.warning(request, f'Your already joined the ride as a sharer')
+        return redirect('your_ride')
     ride.sharer.add(request.user)
     ride.save()
-    return render(request, 'ride/join_ride.html')
+    messages.success(request, f'You have joined the ride')
+    return redirect('your_ride')
+
+@login_required()
+def sharer_leave(request, ride_id):
+    ride = RideOrder.objects.filter(pk=ride_id).first()
+    ride.sharer.remove(request.user)
+    ride.save()
+    messages.success(request, f'You have left the ride')
+    return redirect('your_ride')
 
 @login_required()
 def complete_ride(request, ride_id):
     ride = RideOrder.objects.filter(pk=ride_id).first()
     ride.status='completed'
     ride.save()
-    return render(request, 'ride/complete_ride.html')
+    messages.success(request, f'You have completed the ride')
+    return redirect('your_ride')
+
+@login_required()
+def owner_delete(request, ride_id):
+    ride = RideOrder.objects.filter(pk=ride_id).first()
+    ride.delete()
+    messages.success(request, f'You have deleted the ride')
+    return redirect('your_ride')
 
 @login_required
 def add_vehicle_info(request):
