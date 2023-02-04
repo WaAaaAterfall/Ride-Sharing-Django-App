@@ -1,26 +1,21 @@
 {% extends "ride/base.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
-<h1>Driver: {{ user.name }}</h1>
+    <h1>{{ user.username }}</h1>
+    <p>Driver page</p>
+        <form method="get" action= "/ride/driver_search">
+                <button type="submit">Search open ride requests</button>
+        </form>
 
+        <form method="get" action= "/ride/driver_ride">
+                <button type="submit">My confirmed rides</button>
+        </form>
 
-<table border="1">
-        <thead>
-                <tr>
-                        <th>Vehicle</th>
-                        <th>Address</th>
-                        <th>Owner</th>
-                </tr>
-        </thead>
+        <form method="get" action= "/ride/edit_vehicle">
+            <button type="submit">Edit your vehicle information</button>
+        </form>
 
-        <tbody>
-                <tr>
-                        <td>{{vehicle.driver.username}}</td>
-                        <td>{{vehicle.plate}}</td>
-                        <td>{{vehicle.Vtype}}</td>
-                </tr>
-        </tbody>
-
-</table>
-
+        <form method="get" action= "{% url 'logout' %}">
+                <button type="submit">Logout</button>
+        </form>
 {%endblock content%}

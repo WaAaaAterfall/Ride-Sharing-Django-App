@@ -2,7 +2,7 @@
 {% load crispy_forms_tags %}
 {% block content %}
     <h1>{{ user.username }}</h1>
-
+    {% if vehicle.driver.username %}
     <table border = "1">
                 <thead>
                         <tr>
@@ -22,6 +22,12 @@
         
         </table>
 
+        <form method=""get" action= "/ride/driverhome">
+                <button type="submit">My driver page</button>
+        </form>
+        {% endif %}
+
+
         <form method=""get" action= "/ride/edit_your_profile">
                 <button type="submit">Edit your personal profile</button>
         </form>
@@ -30,9 +36,11 @@
                 <button type="submit">Request a Ride</button>
         </form>
 
+        {% if not vehicle.driver.username %}
         <form method=""get" action= "/ride/addvehicle">
                 <button type="submit">Join as a Driver</button>
         </form>
+        {% endif %}
 
         <form method=""get" action= "/ride/user_search_ride">
                 <button type="submit">Search all the open ride</button>

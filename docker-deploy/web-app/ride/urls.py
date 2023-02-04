@@ -17,6 +17,11 @@ urlpatterns = [
     path('complete_ride/<int:ride_id>', views.complete_ride, name='complete_ride'),
     path('user_search_ride/', views.user_search_ride, name = 'user_ride_search'),
     path('ride_search_result/', views.user_search_ride, name = 'ride_search_result'),
+
+    path('driver_search/', views.driver_search, name = 'driver_search'),
+    path('driver_ride/', views.driver_ride, name = 'driver_ride'),
+    path('edit_vehicle/', views.edit_vehicle, name = 'edit_vehicle'),
+    
     path('edit_ride/<int:ride_id>/', views.ride_modify, name = 'edit_ride'),
     path('join_ride/<int:ride_id>/', views.sharer_join, name = 'join_ride'),
 ]

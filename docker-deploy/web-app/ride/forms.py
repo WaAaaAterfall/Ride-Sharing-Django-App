@@ -35,6 +35,14 @@ class RideSearchForm(forms.Form):
         input_formats = ['%Y-%m-%dT%H:%M'])
     passenger_num = forms.IntegerField()
 
+class DriverSearchForm(forms.Form):
+    destination = forms.CharField()
+    earliest_time = forms.DateTimeField(
+        input_formats = ['%Y-%m-%dT%H:%M'])
+    latest_time = forms.DateTimeField(
+        input_formats = ['%Y-%m-%dT%H:%M'])
+    passenger_num = forms.IntegerField()
+
 class VehicleForm(forms.ModelForm):
     plate = forms.CharField(label='License Plate No.',required=True)
     Vtype = forms.ChoiceField(label='Vehicle Type',choices=(("Sedan", "Sedan"),("SUV", "SUV")))
