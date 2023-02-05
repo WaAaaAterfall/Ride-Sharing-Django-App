@@ -3,6 +3,24 @@
 {% block content %}
     <h1>{{ user.username }}</h1>
     <p>Driver page</p>
+    <table border = "1">
+        <thead>
+                <tr>
+                        <th>Vehicle</th>
+                        <th>Plate</th>
+                        <th>Type</th>
+                </tr>
+        </thead>
+
+        <tbody>
+            <tr>
+                <td>{{vehicle.driver.username}}</td>
+                <td>{{vehicle.plate}}</td>
+                <td>{{vehicle.vehicle_type}}</td>
+            </tr>
+        </tbody>
+
+</table>
         <form method="get" action= "/ride/driver_search">
                 <button type="submit">Search open ride requests</button>
         </form>
@@ -13,6 +31,10 @@
 
         <form method="get" action= "/ride/edit_vehicle">
             <button type="submit">Edit your vehicle information</button>
+        </form>
+
+        <form method="get" action= "/ride/search_confirm">
+                <button type="submit">Search your confirmed rides</button>
         </form>
 
         <form method="get" action= "{% url 'userhome' %}">

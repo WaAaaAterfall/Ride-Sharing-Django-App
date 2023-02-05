@@ -27,12 +27,12 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['vcm-30657.vm.duke.edu','vcm-30958.vm.duke.edu','127.0.0.1']
 
-
 # Application definition
 
 INSTALLED_APPS = [
     'ride.apps.RideConfig',
     'crispy_forms',
+    'bootstrap5',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

@@ -30,19 +30,28 @@
             <td>{{ride.arrive_date}}</td>
             <td>{{ride.passenger_num}}</td>
             <td>{{ride.vehicle_type}}</td>
-            <td>{{ride.driver.username}}</td>
+            <td>{{ride.driver.driver.username}}</td>
             <td>{{ride.status}}</td>
             <td>
                 {% if ride.owner == user %}
-                You cannot confirm this Ride
+                You cannot confirm this Ride as an owner
+                {% elif ride.sharer.count > 0 %}
+                    {% for sharer in ride.sharer.all %}
+                        {% if sharer == user%}
+                            you cannot confirm the ride as a sharer
+                        {% endif%}
+                    {% endfor %}
                 {% else %}
-                <form method="get" action="{% url 'confirm_ride' ride.id %}">
-                    <button type="submit">Confirm</button>
-                </form>
+                    <form method="get" action="{% url 'confirm_ride' ride.id %}">
+                        <button type="submit">Confirm</button>
+                    </form>
                 {% endif %}
             </td>
             <td>{{ride.sharable}}</td>
-            <td>{{ride.sharer}}</td>
+            <td>{% for sharer in ride.sharer.all %}
+                <p>{{sharer.username}}</p>
+                {% endfor %}
+            </td>
         </tr>
         {% endfor %}
     </tbody>

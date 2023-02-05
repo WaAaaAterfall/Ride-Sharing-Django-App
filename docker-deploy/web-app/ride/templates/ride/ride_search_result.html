@@ -29,10 +29,13 @@
                         <td>{{ride.destination}}</td>
                         <td>{{ride.arrive_date}}</td>
                         <td>{{ride.passenger_num}}</td>
-                        <td>{{ride.driver.username}}</td>
+                        <td>{{ride.driver.driver.username}}</td>
                         <td>{{ride.status}}</td>
                         <td>{{ride.sharable}}</td>
-                        <td>{{ride.sharer}}</td>
+                        <td>{% for sharer in ride.sharer.all %}
+                            <p>{{sharer.username}}</p>
+                            {% endfor %}
+                        </td>
                         {% if ride.owner == user %}
                             <td>You can't join your own ride</td>
                         {% else %} 

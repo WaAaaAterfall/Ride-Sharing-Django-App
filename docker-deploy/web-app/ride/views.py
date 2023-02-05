@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from .forms import UserRegisterForm, UserEditForm, VehicleForm, RideCreateForm, RideSearchForm, DriverSearchForm
+from .forms import UserRegisterForm, UserEditForm, VehicleForm, RideCreateForm, RideSearchForm, BelongSearchForm, DriverSearchForm, DriverSearchConfirmForm
 # Create your views here.
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
@@ -171,10 +171,39 @@ def search_owner_sharer_ride(request):
     return render(request, 'ride/your_ride.html', context)
 
 @login_required()
+def select_belong_ride(request):
+    if(request.method == 'POST'):
+         form = BelongSearchForm(request.POST)
+         #ride = None
+         if form.is_valid():
+            dest = form.cleaned_data['destination']
+            earliest_time =  form.cleaned_data['earliest_time']
+            latest_time = form.cleaned_data['latest_time']
+            try:
+                owner_ride = RideOrder.objects.filter(owner = request.user.id, 
+                                                    destination = dest, 
+                                                    status__in = ['open', 'confirmed'], 
+                                                    arrive_date__range=(earliest_time,latest_time))
+            except RideOrder.DoesNotExist:
+                owner_ride = None
+
+            try:
+                sharer_ride = RideOrder.objects.filter(sharer=request.user.id,
+                                                    destination = dest, 
+                                                    status__in = ['open', 'confirmed'], 
+                                                    arrive_date__range=(earliest_time,latest_time))
+            except RideOrder.DoesNotExist:
+                sharer_ride = None
+            context = {'owner_ride': owner_ride, 'sharer_ride': sharer_ride}
+            return render(request, 'ride/belong_search_result.html', context)
+    else :
+        form = BelongSearchForm()
+        return render(request, 'ride/belong_search.html', {'form':form})
+
+@login_required()
 def driver_search(request):
     if(request.method == 'POST'):
         form = DriverSearchForm(request.POST)
-        #ride = None
         if form.is_valid():
             dest = form.cleaned_data['destination']
             earliest_time =  form.cleaned_data['earliest_time']
@@ -190,6 +219,24 @@ def driver_search(request):
     else :
         form = DriverSearchForm()
         return render(request, 'ride/driver_search.html', {'form':form})
+    
+@login_required()
+def search_confirm(request):
+    vehicle = DriverVehicle.objects.filter(driver=request.user).first()
+    if(request.method == 'POST'):
+        form = DriverSearchConfirmForm(request.POST)
+        if form.is_valid():
+            dest = form.cleaned_data['destination']
+            earliest_time =  form.cleaned_data['earliest_time']
+            latest_time = form.cleaned_data['latest_time']
+            ride = RideOrder.objects.filter(destination = dest, 
+                                        status = 'confirmed',
+                                        driver=vehicle,
+                                        arrive_date__range=(earliest_time,latest_time))
+            return render(request, 'ride/search_confirm_result.html', {'rides':ride})
+    else :
+        form = DriverSearchConfirmForm()
+        return render(request, 'ride/search_confirm.html', {'form':form})
     
 @login_required()
 def driver_ride(request):
@@ -271,6 +318,15 @@ def sharer_leave(request, ride_id):
     return redirect('your_ride')
 
 @login_required()
+def driver_leave(request, ride_id):
+    ride = RideOrder.objects.filter(pk=ride_id).first()
+    ride.driver = None
+    ride.status = 'open'
+    ride.save()
+    messages.success(request, f'You have cancelled the confirmation of the ride')
+    return redirect('driverhome')
+
+@login_required()
 def complete_ride(request, ride_id):
     ride = RideOrder.objects.filter(pk=ride_id).first()
     ride.status='completed'
@@ -309,7 +365,6 @@ def vehicle_delete(request):
     rides = RideOrder.objects.filter(driver=vehicle)
     for ride in rides:
         ride.status = 'open'
-        # ride.driver_id = ''
         ride.save()
     vehicle.delete()
     messages.success(request, f'You have deleted your vehicle')

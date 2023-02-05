@@ -1,7 +1,7 @@
 {% extends "ride/base.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
-<h1>{{ user.username }}</h1>
+<h1>{{ user.username}}, the search result among the ride you belong</h1>
 
 <p>The ride you own</p>
 <table border="1">
@@ -19,8 +19,8 @@
                         <th>Driver</th>
                         <th>Car Type</th>
                         <th>Plate Number</th>
-                        <th>Edit-Ride-Info</th>
-                        <th>Delete-the-ride</th>
+                        <th>Edit Ride Info</th>
+                        <th>Delete the ride</th>
                 </tr>
         </thead>
 
@@ -36,7 +36,7 @@
                         <td>{{ride.sharable}}</td>
                         <td>{{ride.special_request}}</td>
                         <td>{% for sharer in ride.sharer.all %}
-                                <p>{{sharer.username}}</p>
+                                <p>{{sharer.id}} ,</p>
                                 {% endfor %}
                         </td>
                         <td>{{ride.driver.driver.username}}</td>

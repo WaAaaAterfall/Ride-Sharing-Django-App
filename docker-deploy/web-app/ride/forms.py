@@ -36,7 +36,21 @@ class RideSearchForm(forms.Form):
         input_formats = ['%Y-%m-%dT%H:%M'])
     passenger_num = forms.IntegerField()
 
+class BelongSearchForm(forms.Form):
+    destination = forms.CharField()
+    earliest_time = forms.DateTimeField(
+        input_formats = ['%Y-%m-%dT%H:%M'])
+    latest_time = forms.DateTimeField(
+        input_formats = ['%Y-%m-%dT%H:%M'])
+
 class DriverSearchForm(forms.Form):
+    destination = forms.CharField()
+    earliest_time = forms.DateTimeField(
+        input_formats = ['%Y-%m-%dT%H:%M'])
+    latest_time = forms.DateTimeField(
+        input_formats = ['%Y-%m-%dT%H:%M'])
+
+class DriverSearchConfirmForm(forms.Form):
     destination = forms.CharField()
     earliest_time = forms.DateTimeField(
         input_formats = ['%Y-%m-%dT%H:%M'])
