@@ -2,56 +2,67 @@
 {% load crispy_forms_tags %}
 {% block content %}
 
-
-
-
-
-    <h1>{{ user.username }}</h1>
-    <p>Driver page</p>
-    <table border = "1">
-        <thead>
-                <tr>
-                        <th>Vehicle</th>
-                        <th>Plate</th>
-                        <th>Type</th>
-                </tr>
-        </thead>
-
-        <tbody>
-            <tr>
-                <td>{{vehicle.driver.username}}</td>
-                <td>{{vehicle.plate}}</td>
-                <td>{{vehicle.vehicle_type}}</td>
-            </tr>
-        </tbody>
-
-</table>
-        <form method="get" action= "/ride/driver_search">
-                <button type="submit">Search open ride requests</button>
-        </form>
-
-        <form method="get" action= "/ride/driver_ride">
-                <button type="submit">My confirmed rides</button>
-        </form>
-
-        <form method="get" action= "/ride/edit_vehicle">
-            <button type="submit">Edit your vehicle information</button>
-        </form>
-
-        <form method="get" action= "/ride/search_confirm">
-                <button type="submit">Search your confirmed rides</button>
-        </form>
-
-        <form method="get" action= "{% url 'userhome' %}">
-                <button type="submit">Back to user home</button>
-        </form>
-
-        <div class="border-top pt-3">
-                <small class="text-muted">
-                    No longer want to be a driver?  
-                    <form method="get" action= "/ride/vehicle_delete">
-                        <button type="submit">Delete your driver profile</button>
-                    </form>
-                </small>
+<div class="row">
+        <div class="col-9">
+                <!-- Page Title -->
+                <h2>Driver Home</h2>
         </div>
+        <div class="col-5">
+                <!--Sidebar content-->
+                <div class="row fixed">
+                        <nav class="nav flex-column">
+                                <form method="get" action="/ride/driver_search">
+                                        <button class="btn" type="submit">Search Open Ride Requests</button>
+                                </form>
+
+                                <form method="get" action="/ride/driver_ride">
+                                        <button class="btn" type="submit">My Confirmed Rides</button>
+                                </form>
+
+                                <form method="get" action="/ride/search_confirm">
+                                        <button class="btn" type="submit">Search Your Confirmed Rides</button>
+                                </form>
+
+                                <form method="get" action="/ride/edit_vehicle">
+                                        <button class="btn" type="submit">Edit Your Vehicle Information</button>
+                                </form>
+
+                                <form method="get" action="{% url 'userhome' %}">
+                                        <button class="btn" type="submit">Back to User Home</button>
+                                </form>
+                        </nav>
+                </div>
+        </div>
+        <div class="col-7">
+                <!--Body content-->
+                <h4>Your vehicle information:</h4>
+                <table class="table table-bordered table-hover">
+                        <thead>
+                                <tr>
+                                        <th>Vehicle</th>
+                                        <th>Plate</th>
+                                        <th>Type</th>
+                                </tr>
+                        </thead>
+
+                        <tbody>
+                                <tr>
+                                        <td>{{vehicle.driver.username}}</td>
+                                        <td>{{vehicle.plate}}</td>
+                                        <td>{{vehicle.vehicle_type}}</td>
+                                </tr>
+                        </tbody>
+
+                </table>
+
+                <div class="border-top pt-3">
+                        <small class="text-muted">
+                                No longer want to be a driver?
+                                <form method="get" action="/ride/vehicle_delete">
+                                        <button type="submit">Delete your driver profile</button>
+                                </form>
+                        </small>
+                </div>
+        </div>
+</div>
 {%endblock content%}

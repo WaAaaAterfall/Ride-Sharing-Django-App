@@ -12,9 +12,7 @@
     integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
   <link rel="stylesheet" type="text/css" href="{% static 'ride/main.css' %}">
 
-
   <title>Ride Sharing System</title>
-
 </head>
 
 <body>
@@ -35,7 +33,7 @@
           </div>
           <div class="navbar-nav ">
             {% if user.is_authenticated %}
-            <a class="nav-item nav-link" href="{% url 'userhome' %}">Hi, {{user.username}} !</a>
+            <a class="nav-item nav-link" href="{% url 'userhome' %}">Hi, {{user.username}}!</a>
             <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
             {% else %}
             <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
