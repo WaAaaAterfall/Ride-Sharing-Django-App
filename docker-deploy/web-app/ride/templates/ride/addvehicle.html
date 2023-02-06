@@ -43,15 +43,18 @@
     </div>
     <div class="col-8">
         <!--Body content-->
-        <h4>Add your vehicle information:</h4>
-        <form method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
-            {{ form|crispy }}
-            <br />
-            <div class="form-group">
-                <button class="btn" type="submit">Add</button>
-            </div>
-        </form>
+        <div class="content-section">
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <fieldset class="form-group">
+                    <legend class="border-bottom mb-4">Add your vehicle information</legend>
+                    {{ form|crispy }}
+                </fieldset>
+                <div class="form-group">
+                    <button class="btn" type="submit">Add</button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 {%endblock content%}

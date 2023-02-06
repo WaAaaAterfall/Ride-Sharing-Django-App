@@ -51,7 +51,10 @@ def userhome(request):
 
 @login_required()
 def driverhome(request):
-    vehicle = DriverVehicle.objects.get(driver=request.user)
+    try:
+        vehicle = DriverVehicle.objects.get(driver=request.user)
+    except DriverVehicle.DoesNotExist:
+        vehicle = None
     return render(request, 'ride/driverhome.html', {'vehicle': vehicle})
 
 
@@ -72,7 +75,10 @@ def edit_profile(request):
 @login_required
 def create_ride(request):
     ride = RideOrder()
-    vehicle = DriverVehicle.objects.get(driver=request.user)
+    try:
+        vehicle = DriverVehicle.objects.get(driver=request.user)
+    except DriverVehicle.DoesNotExist:
+        vehicle = None
     if request.method == 'POST':
         form = RideCreateForm(request.POST)
         if form.is_valid():
@@ -95,7 +101,10 @@ def create_ride(request):
 
 @login_required()
 def user_search_ride(request):
-    vehicle = DriverVehicle.objects.get(driver=request.user)
+    try:
+        vehicle = DriverVehicle.objects.get(driver=request.user)
+    except DriverVehicle.DoesNotExist:
+        vehicle = None
     if (request.method == 'POST'):
         form = RideSearchForm(request.POST)
         # ride = None
@@ -154,8 +163,10 @@ def ride_modify(request, ride_id):
 
 @login_required()
 def search_owner_sharer_ride(request):
-    vehicle = DriverVehicle.objects.get(driver=request.user)
-
+    try:
+        vehicle = DriverVehicle.objects.get(driver=request.user)
+    except DriverVehicle.DoesNotExist:
+        vehicle = None
     try:
         owner_ride = RideOrder.objects.filter(owner=request.user.id)
     except RideOrder.DoesNotExist:
@@ -172,6 +183,10 @@ def search_owner_sharer_ride(request):
 
 @login_required()
 def select_belong_ride(request):
+    try:
+        vehicle = DriverVehicle.objects.get(driver=request.user)
+    except DriverVehicle.DoesNotExist:
+        vehicle = None
     if (request.method == 'POST'):
         form = BelongSearchForm(request.POST)
         # ride = None
@@ -196,22 +211,25 @@ def select_belong_ride(request):
                                                        arrive_date__range=(earliest_time, latest_time))
             except RideOrder.DoesNotExist:
                 sharer_ride = None
-            context = {'owner_ride': owner_ride, 'sharer_ride': sharer_ride}
+            context = {'owner_ride': owner_ride, 'sharer_ride': sharer_ride, 'vehicle': vehicle}
             return render(request, 'ride/belong_search_result.html', context)
     else:
         form = BelongSearchForm()
-        return render(request, 'ride/belong_search.html', {'form': form})
+        return render(request, 'ride/belong_search.html', {'form': form, 'vehicle': vehicle})
 
 
 @login_required()
 def driver_search(request):
+    try:
+        vehicle = DriverVehicle.objects.get(driver=request.user)
+    except DriverVehicle.DoesNotExist:
+        vehicle = None
     if (request.method == 'POST'):
         form = DriverSearchForm(request.POST)
         if form.is_valid():
             dest = form.cleaned_data['destination']
             earliest_time = form.cleaned_data['earliest_time']
             latest_time = form.cleaned_data['latest_time']
-            vehicle = DriverVehicle.objects.get(driver=request.user)
             ride = RideOrder.objects.filter(destination=dest,
                                             status='open',
                                             arrive_date__range=(
@@ -277,7 +295,10 @@ def edit_vehicle(request):
 def confirm_ride(request, ride_id):
     ride = RideOrder.objects.filter(pk=ride_id).first()
     ride.status = 'confirmed'
-    vehicle = DriverVehicle.objects.get(driver=request.user)
+    try:
+        vehicle = DriverVehicle.objects.get(driver=request.user)
+    except DriverVehicle.DoesNotExist:
+        vehicle = None
     ride.driver = vehicle
     ride.save()
     messages.success(request, f'You have comfirmed the ride')
@@ -379,7 +400,10 @@ def add_vehicle_info(request):
 
 @login_required()
 def vehicle_delete(request):
-    vehicle = DriverVehicle.objects.get(driver=request.user)
+    try:
+        vehicle = DriverVehicle.objects.get(driver=request.user)
+    except DriverVehicle.DoesNotExist:
+        vehicle = None
     rides = RideOrder.objects.filter(driver=vehicle)
     for ride in rides:
         ride.status = 'open'
