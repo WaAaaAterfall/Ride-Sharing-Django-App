@@ -10,7 +10,6 @@ urlpatterns = [
     path('addvehicle/', views.add_vehicle_info, name='addvehicle'),
     path('driverhome/', views.driverhome, name='driverhome'),
     path('newride/', views.create_ride, name='createride'),
-    path('rideinfo/', views.rideinfo, name='rideinfo'),
     path('your_ride/', views.search_owner_sharer_ride, name='your_ride'),
     path('belong_search/', views.select_belong_ride, name='belong_search'),
     path('complete_ride/<int:ride_id>', views.complete_ride, name='complete_ride'),

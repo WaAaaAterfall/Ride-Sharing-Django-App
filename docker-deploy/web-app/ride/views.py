@@ -69,14 +69,6 @@ def edit_profile(request):
         form = UserEditForm(instance=request.user)
     return render(request, 'ride/edit_profile.html', {'form': form})
 
-
-@login_required()
-def rideinfo(request):
-    data = RideOrder.objects.filter(owner_id=request.user.id)
-
-    return render(request, 'ride/rideinfo.html', {'data': data})
-
-
 @login_required
 def create_ride(request):
     ride = RideOrder()
@@ -103,6 +95,7 @@ def create_ride(request):
 
 @login_required()
 def user_search_ride(request):
+    vehicle = DriverVehicle.objects.get(driver=request.user)
     if (request.method == 'POST'):
         form = RideSearchForm(request.POST)
         # ride = None
@@ -120,7 +113,7 @@ def user_search_ride(request):
             return render(request, 'ride/ride_search_result.html', {'rides': ride})
     else:
         form = RideSearchForm()
-        return render(request, 'ride/user_search.html', {'form': form})
+        return render(request, 'ride/user_search.html', {'form': form, 'vehicle': vehicle})
 
 
 @login_required()
@@ -161,6 +154,8 @@ def ride_modify(request, ride_id):
 
 @login_required()
 def search_owner_sharer_ride(request):
+    vehicle = DriverVehicle.objects.get(driver=request.user)
+
     try:
         owner_ride = RideOrder.objects.filter(owner=request.user.id)
     except RideOrder.DoesNotExist:
@@ -171,7 +166,7 @@ def search_owner_sharer_ride(request):
     except RideOrder.DoesNotExist:
         sharer_ride = None
 
-    context = {'owner_ride': owner_ride, 'sharer_ride': sharer_ride}
+    context = {'owner_ride': owner_ride, 'sharer_ride': sharer_ride, 'vehicle': vehicle}
     return render(request, 'ride/your_ride.html', context)
 
 

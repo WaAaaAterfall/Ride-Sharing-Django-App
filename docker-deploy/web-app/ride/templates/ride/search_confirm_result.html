@@ -4,10 +4,9 @@
 <h1>{{ user.username }}</h1>
 
 <p>The ride you confirmed as a driver</p>
-<table border="1">
+<table class="table table-bordered table-hover">
     <thead>
         <tr>
-            <th>ID</th>
             <th>Owner</th>
             <th>Destination</th>
             <th>Arrival-Time</th>
@@ -25,7 +24,6 @@
     <tbody>
         {% for ride in rides %}
         <tr>
-            <td>{{ride.id}}</td>
             <td>{{ride.owner.username}}</td>
             <td>{{ride.destination}}</td>
             <td>{{ride.arrive_date}}</td>
@@ -50,10 +48,5 @@
         {% endfor %}
     </tbody>
 </table>
-<p> </p>
-
-<form method="get" action="/ride/driverhome">
-    <button type="submit">Back to main</button>
-</form>
 
 {%endblock content%}

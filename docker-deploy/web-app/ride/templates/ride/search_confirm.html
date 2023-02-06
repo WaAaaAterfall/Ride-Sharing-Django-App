@@ -1,21 +1,51 @@
 {% extends "ride/base.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
-    <div class = "content-section">   
-        <form method = "POST">
-            {% csrf_token %}
-            <fieldset class="form-group">
-                <legend class = "border-bottom mb-4">Search Confirmed Ride</legend>
-                {{ form|crispy }}
-            </fieldset>
-            <div class="form-group">
-                <button class="btn" type="submit">Search</button>
-            </div>
-        </form>
-        <div class="border-top pt-3">
-            <small class="text-muted">
-                Back to main page? <a class="ml-2" href="{% url 'driverhome' %}">Home</a>
-            </small>
+<div class="row">
+    <div class="col-9">
+        <!-- Page Title -->
+        <h2>Driver Home</h2>
+    </div>
+    <div class="col-5">
+        <!--Sidebar content-->
+        <div class="row fixed">
+            <nav class="nav flex-column">
+                <form method="get" action="/ride/driver_search">
+                    <button class="btn" type="submit">Search Open Ride Requests</button>
+                </form>
+
+                <form method="get" action="/ride/driver_ride">
+                    <button class="btn" type="submit">My Confirmed Rides</button>
+                </form>
+
+                <form method="get" action="/ride/search_confirm">
+                    <button class="btn btn-active" type="submit">Search Your Confirmed Rides</button>
+                </form>
+
+                <form method="get" action="/ride/edit_vehicle">
+                    <button class="btn" type="submit">Edit Your Vehicle Information</button>
+                </form>
+
+                <form method="get" action="{% url 'userhome' %}">
+                    <button class="btn" type="submit">Back to User Home</button>
+                </form>
+            </nav>
         </div>
     </div>
+    <div class="col-7">
+        <!--Body content-->
+        <div class="content-section">
+            <form method="POST">
+                {% csrf_token %}
+                <fieldset class="form-group">
+                    <legend class="border-bottom mb-4">Search Confirmed Rides</legend>
+                    {{ form|crispy }}
+                </fieldset>
+                <div class="form-group">
+                    <button class="btn" type="submit">Search</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 {%endblock content%}
