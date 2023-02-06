@@ -12,7 +12,6 @@ urlpatterns = [
     path('newride/', views.create_ride, name='createride'),
     path('your_ride/', views.search_owner_sharer_ride, name='your_ride'),
     path('belong_search/', views.select_belong_ride, name='belong_search'),
-    path('complete_ride/<int:ride_id>', views.complete_ride, name='complete_ride'),
     path('user_search_ride/', views.user_search_ride, name = 'user_ride_search'),
     path('ride_search_result/', views.search_open_result, name = 'ride_search_result'),
     path('driver_search/', views.driver_search, name = 'driver_search'),

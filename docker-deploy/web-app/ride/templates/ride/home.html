@@ -1,18 +1,11 @@
 {% extends "ride/base.html" %}
 {% block content %}
-<h1>Welcome to our Ride & Share System</h1>
-<h2>You great journey starting here!</h2>
+<h1>This is the Ride Share System.</h1>
+<h2>You can request a ride as an owner or join a ride as a sharer. You can also become a driver.</h2>
+<br />
+<h2>Join us now!</h2>
 
-<br>
-<p class = "main">
-  Please Login in first. Then you can see three choices on the menu, including "Start A Ride", "Find A Ride" and "Driver's Searching".
-</p>
+<br />
+<h2>Click the login or register on the top right to start your journey.</h2>
 
-<form method=""get" action= "/login">
-  <button type="submit">Login</button>
-</form>
-
-<form method=""get" action= "{% url 'userhome' %}"">
-  <button type="submit">already log in? Go to your home page</button>
-</form>
 {% endblock content %}

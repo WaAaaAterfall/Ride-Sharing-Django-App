@@ -119,7 +119,7 @@ def user_search_ride(request):
                                             arrive_date__range=(
                                                 earliest_time, latest_time),
                                             passenger_num__gte=passenger_num)
-            return render(request, 'ride/ride_search_result.html', {'rides': ride})
+            return render(request, 'ride/ride_search_result.html', {'rides': ride, 'vehicle': vehicle})
     else:
         form = RideSearchForm()
         return render(request, 'ride/user_search.html', {'form': form, 'vehicle': vehicle})
@@ -127,6 +127,10 @@ def user_search_ride(request):
 
 @login_required()
 def search_open_result(request):
+    try:
+        vehicle = DriverVehicle.objects.get(driver=request.user)
+    except DriverVehicle.DoesNotExist:
+        vehicle = None
     dest = request.session.get('destination')
     earliest_time = request.session.get('earliest_time')
     latest_time = request.session.get('latest_time')
@@ -137,11 +141,15 @@ def search_open_result(request):
                                      arrive_date__range=(
                                          earliest_time, latest_time),
                                      passenger_num__gte=passenger_num)
-    return render(request, 'ride/ride_search_result.html', {'rides': rides})
+    return render(request, 'ride/ride_search_result.html', {'rides': rides, 'vehicle': vehicle})
 
 
 @login_required()
 def ride_modify(request, ride_id):
+    try:
+        vehicle = DriverVehicle.objects.get(driver=request.user)
+    except DriverVehicle.DoesNotExist:
+        vehicle = None
     if request.method == 'POST':
         ride = RideOrder.objects.filter(pk=ride_id).first()
         if ride.status == 'open':
@@ -158,7 +166,7 @@ def ride_modify(request, ride_id):
         ride = RideOrder.objects.filter(pk=ride_id).first()
         form = RideCreateForm(instance=ride)
 
-    return render(request, 'ride/edit_ride.html', {'form': form})
+    return render(request, 'ride/edit_ride.html', {'form': form, 'vehicle': vehicle})
 
 
 @login_required()
@@ -367,7 +375,7 @@ def complete_ride(request, ride_id):
     ride.status = 'completed'
     ride.save()
     messages.success(request, f'You have completed the ride')
-    return redirect('your_ride')
+    return redirect('driverhome')
 
 
 @login_required()
