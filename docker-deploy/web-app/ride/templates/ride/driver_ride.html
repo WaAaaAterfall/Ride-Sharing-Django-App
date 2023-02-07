@@ -63,11 +63,17 @@
                         <p>{{sharer.username}}</p>
                         {% endfor %}
                     </td>
+                    {% if ride.status == 'completed' %}
+                    <td>
+                        Already completed
+                    </td>
+                    {% else %}
                     <td>
                         <form method="get" action="{% url 'complete_ride' ride.id %}">
                             <button type="submit">Complete</button>
                         </form>
                     </td>
+                    {% endif %}
                     <td>
                         <form method="get" action="{% url 'driver_leave' ride.id %}">
                             <button type="submit">Cancel</button>
