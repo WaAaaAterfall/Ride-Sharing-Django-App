@@ -1,22 +1,64 @@
 {% extends "ride/base.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
-    <div class = "content-section">   
-        <form method = "POST">
-            {% csrf_token %}
-            <fieldset class="form-group">
-                <legend class = "border-bottom mb-4">Search Ride</legend>
-                {{ form|crispy }}
-                <p>Note: the search results contains ride's passenger_num larger than the requested number</p>
-            </fieldset>
-            <div class="form-group">
-                <button class="btn btn-outpline-info" type="submit">Search</button>
-            </div>
-        </form>
-        <div class="border-top pt-3">
-            <small class="text-muted">
-                Back to main page? <a class="ml-2" href="{% url 'userhome' %}">Home</a>
-            </small>
+<div class="row">
+    <div class="col-9">
+        <!-- Page Title -->
+        <h2>User Home</h2>
+    </div>
+    <div class="col-4">
+        <!--Sidebar content-->
+        <div class="row fixed">
+            <nav class="nav flex-column">
+                {% if vehicle.driver %}
+                <form method="get" action="/ride/driverhome">
+                    <button class="btn" type="submit">My Driver Page</button>
+                </form>
+                {% endif %}
+
+                <form method="get" action="/ride/newride">
+                    <button class="btn" type="submit">Request a Ride</button>
+                </form>
+
+                <form method="get" action="/ride/user_search_ride">
+                    <button class="btn btn-active" type="submit">Search All Open Rides</button>
+                </form>
+
+                <form method="get" action="/ride/your_ride">
+                    <button class="btn" type="submit">View All Your Rides</button>
+                </form>
+
+                <form method="get" action="/ride/belong_search">
+                    <button class="btn" type="submit">Search All Your Rides</button>
+                </form>
+
+                {% if not vehicle.driver%}
+                <form method="get" action="/ride/addvehicle">
+                    <button class="btn" type="submit">Join as a Driver</button>
+                </form>
+                {% endif %}
+
+            </nav>
         </div>
     </div>
+    <div class="col-8">
+        <!--Body content-->
+        <div class="content-section">
+            <form method="POST">
+                {% csrf_token %}
+                <fieldset class="form-group">
+                    <legend class="border-bottom mb-4">Search all open requests</legend>
+                    {{ form|crispy }}
+                    <br />
+                    <p>Note: the search results contains all rides whose passenger number is larger than the requested
+                        number</p>
+                </fieldset>
+                <div class="form-group">
+                    <button class="btn" type="submit">Search</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
 {%endblock content%}

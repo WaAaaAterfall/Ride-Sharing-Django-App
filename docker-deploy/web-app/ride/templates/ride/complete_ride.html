@@ -1,13 +1,12 @@
 {% extends "ride/base.html" %}
 {% block content %}
 
-
 <br>
-<p class = "main">
-  The ride has been completed. Thanks for riding with ys
+<p class="main">
+  The ride has been completed. Thanks for riding with us.
 </p>
 
-<form method="get" action= "{% url 'driver_ride' %}">
+<form method="get" action="{% url 'driver_ride' %}">
   <button type="submit">Go back to your ride</button>
 </form>
 {% endblock content %}

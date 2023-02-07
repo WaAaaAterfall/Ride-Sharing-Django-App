@@ -1,65 +1,88 @@
 {% extends "ride/base.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
-<h1>{{ user.username }}</h1>
+<div class="row">
+    <div class="col-9">
+        <!-- Page Title -->
+        <h2>Driver Home</h2>
+    </div>
+    <div class="col-5">
+        <!--Sidebar content-->
+        <div class="row fixed">
+            <nav class="nav flex-column">
+                <form method="get" action="/ride/driver_search">
+                    <button class="btn btn-active" type="submit">Search Open Ride Requests</button>
+                </form>
 
-<p>The ride you own</p>
-<table border="1">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Owner</th>
-            <th>Destination</th>
-            <th>Arrival-Time</th>
-            <th>passenger-number</th>
-            <th>Vehicle type</th>
-            <th>Driver</th>
-            <th>Status</th>
-            <th>Confirm ride</th>
-            <th>Sharable?</th>
-            <th>sharers</th>
-        </tr>
-    </thead>
+                <form method="get" action="/ride/driver_ride">
+                    <button class="btn" type="submit">My Confirmed Rides</button>
+                </form>
 
-    <tbody>
-        {% for ride in rides %}
-        <tr>
-            <td>{{ride.id}}</td>
-            <td>{{ride.owner.username}}</td>
-            <td>{{ride.destination}}</td>
-            <td>{{ride.arrive_date}}</td>
-            <td>{{ride.passenger_num}}</td>
-            <td>{{ride.vehicle_type}}</td>
-            <td>{{ride.driver.driver.username}}</td>
-            <td>{{ride.status}}</td>
-            <td>
-                {% if ride.owner == user %}
-                You cannot confirm this Ride as an owner
-                {% elif ride.sharer.count > 0 %}
-                    {% for sharer in ride.sharer.all %}
-                        {% if sharer == user%}
-                            you cannot confirm the ride as a sharer
-                        {% endif%}
-                    {% endfor %}
-                {% else %}
-                    <form method="get" action="{% url 'confirm_ride' ride.id %}">
-                        <button type="submit">Confirm</button>
-                    </form>
-                {% endif %}
-            </td>
-            <td>{{ride.sharable}}</td>
-            <td>{% for sharer in ride.sharer.all %}
-                <p>{{sharer.username}}</p>
+                <form method="get" action="/ride/search_confirm">
+                    <button class="btn" type="submit">Search Your Confirmed Rides</button>
+                </form>
+
+                <form method="get" action="/ride/edit_vehicle">
+                    <button class="btn" type="submit">Edit Your Vehicle Information</button>
+                </form>
+
+                <form method="get" action="{% url 'userhome' %}">
+                    <button class="btn" type="submit">Back to User Home</button>
+                </form>
+            </nav>
+        </div>
+    </div>
+    <div class="col-7">
+        <h4>Search result of your confirmed rides</h4><br />
+
+        <table class="table table-bordered table-hover table-sm">
+            <thead>
+                <tr>
+                    <th>Owner</th>
+                    <th>Destination</th>
+                    <th>Arrival-Time</th>
+                    <th>passenger-number</th>
+                    <th>Vehicle type</th>
+                    <th>Driver</th>
+                    <th>Status</th>
+                    <th>Special Requests from owner</th>
+                    <th>Confirm ride</th>
+                    <th>Sharable?</th>
+                    <th>sharers</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for ride in rides %}
+                <tr>
+                    <td>{{ride.owner.username}}</td>
+                    <td>{{ride.destination}}</td>
+                    <td>{{ride.arrive_date}}</td>
+                    <td>{{ride.passenger_num}}</td>
+                    <td>{{ride.vehicle_type}}</td>
+                    <td>{{ride.driver.driver.username}}</td>
+                    <td>{{ride.status}}</td>
+                    <td>{{ride.special_request}}</td>
+                    <td>
+                        {% if user in ride.sharer.all%}
+                        You cannot confirm the ride as a sharer
+                        {% elif ride.owner == user %}
+                        You cannot confirm this Ride as an owner
+                        {% else %}
+                        <form method="get" action="{% url 'confirm_ride' ride.id %}">
+                            <button type="submit">Confirm</button>
+                        </form>
+                        {% endif %}
+                    </td>
+                    <td>{{ride.sharable}}</td>
+                    <td>{% for sharer in ride.sharer.all %}
+                        <p>{{sharer.username}}</p>
+                        {% endfor %}
+                    </td>
+                </tr>
                 {% endfor %}
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
-<p> </p>
-
-<form method="get" action="/ride/driverhome">
-    <button type="submit">Back to main</button>
-</form>
-
+            </tbody>
+        </table>
+    </div>
+</div>
 {%endblock content%}

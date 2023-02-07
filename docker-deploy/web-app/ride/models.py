@@ -19,7 +19,7 @@ class DriverVehicle(models.Model):
 class RideOrder(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='owner')
     destination = models.CharField(max_length=100)
-    arrive_date = models.DateTimeField(help_text='Format: 2020-01-01 12:00')
+    arrive_date = models.DateTimeField(help_text='Format: 2023-02-01 12:00')
     passenger_num = models.PositiveIntegerField(default=1)
     sharable = models.BooleanField()
     vehicle_type = models.CharField(default='None',max_length=100, blank=True)
