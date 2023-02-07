@@ -72,6 +72,7 @@ def edit_profile(request):
         form = UserEditForm(instance=request.user)
     return render(request, 'ride/edit_profile.html', {'form': form})
 
+
 @login_required
 def create_ride(request):
     ride = RideOrder()
@@ -83,7 +84,8 @@ def create_ride(request):
         form = RideCreateForm(request.POST)
         if form.is_valid():
             if form.cleaned_data['passenger_num'] == 0:
-                messages.warning(request, f'The passanger number should be bigger than 0')
+                messages.warning(
+                    request, f'The passanger number should be bigger than 0')
                 return render(request, 'ride/newride.html', {'form': form, 'vehicle': vehicle})
             ride.destination = form.cleaned_data['destination']
             ride.arrive_date = form.cleaned_data['arrive_date']
@@ -101,6 +103,7 @@ def create_ride(request):
         form = RideCreateForm()
 
     return render(request, 'ride/newride.html', {'form': form, 'vehicle': vehicle})
+
 
 @login_required()
 def user_search_ride(request):
@@ -188,7 +191,8 @@ def search_owner_sharer_ride(request):
     except RideOrder.DoesNotExist:
         sharer_ride = None
 
-    context = {'owner_ride': owner_ride, 'sharer_ride': sharer_ride, 'vehicle': vehicle}
+    context = {'owner_ride': owner_ride,
+               'sharer_ride': sharer_ride, 'vehicle': vehicle}
     return render(request, 'ride/your_ride.html', context)
 
 
@@ -222,7 +226,8 @@ def select_belong_ride(request):
                                                        arrive_date__range=(earliest_time, latest_time))
             except RideOrder.DoesNotExist:
                 sharer_ride = None
-            context = {'owner_ride': owner_ride, 'sharer_ride': sharer_ride, 'vehicle': vehicle}
+            context = {'owner_ride': owner_ride,
+                       'sharer_ride': sharer_ride, 'vehicle': vehicle}
             return render(request, 'ride/belong_search_result.html', context)
     else:
         form = BelongSearchForm()
@@ -242,13 +247,13 @@ def driver_search(request):
             earliest_time = form.cleaned_data['earliest_time']
             latest_time = form.cleaned_data['latest_time']
             rides = RideOrder.objects.filter(destination=dest,
-                                            status='open',
-                                            arrive_date__range=(
-                                                earliest_time, latest_time),
-                                            passenger_num__lte=vehicle.capacity,
-                                            vehicle_type__in=[
-                                                vehicle.vehicle_type, 'None'],
-                                            special_request__in=['', vehicle.special_info])
+                                             status='open',
+                                             arrive_date__range=(
+                                                 earliest_time, latest_time),
+                                             passenger_num__lte=vehicle.capacity,
+                                             vehicle_type__in=[
+                                                 vehicle.vehicle_type, 'None'],
+                                             special_request__in=['', vehicle.special_info])
             return render(request, 'ride/driver_search_result.html', {'rides': rides})
     else:
         form = DriverSearchForm()
@@ -278,7 +283,8 @@ def search_confirm(request):
 def driver_ride(request):
     try:
         vehicle = DriverVehicle.objects.filter(driver=request.user).first()
-        driver_ride = RideOrder.objects.filter(driver=vehicle)
+        driver_ride = RideOrder.objects.filter(driver=vehicle,
+                                               status="confirmed")
     except RideOrder.DoesNotExist:
         driver_ride = None
 
