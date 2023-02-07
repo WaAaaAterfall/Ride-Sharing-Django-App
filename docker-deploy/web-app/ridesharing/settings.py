@@ -25,7 +25,8 @@ SECRET_KEY = 'django-insecure-wh0x%+a^@lyq0@e%jfjv(v0c)995nh%-9^guyclzr(xi2y82o=
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['vcm-30657.vm.duke.edu','vcm-30958.vm.duke.edu','127.0.0.1']
+ALLOWED_HOSTS = ['web', 'vcm-30657.vm.duke.edu',
+                 'vcm-30958.vm.duke.edu', '127.0.0.1']
 
 # Application definition
 
@@ -71,7 +72,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'ridesharing.wsgi.application'
 
-#change dafalut redirect after login
+# change dafalut redirect after login
 
 LOGIN_REDIRECT_URL = '/ride/userhome/'
 
@@ -81,15 +82,13 @@ LOGIN_REDIRECT_URL = '/ride/userhome/'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'ridedatabase',
-        'USER': 'sp645',
-        'PASSWORD': '568password',
-        'HOST:': '127.0.0.1',
+        'NAME': 'postgres',
+        'USER': 'postgres',
+        'PASSWORD': 'postgres',
+        'HOST': 'db',
         'PORT': '5432',
     }
 }
-
-
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 
