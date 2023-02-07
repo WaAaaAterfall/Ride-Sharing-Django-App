@@ -27,12 +27,12 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['vcm-30657.vm.duke.edu','vcm-30958.vm.duke.edu','127.0.0.1']
 
-
 # Application definition
 
 INSTALLED_APPS = [
     'ride.apps.RideConfig',
     'crispy_forms',
+    'bootstrap5',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -130,3 +130,10 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_PORT = 25
+EMAIL_USE_TLS = False
+EMAIL_HOST = 'smtp.163.com'
+EMAIL_HOST_USER = "nonnon2000@163.com"
+EMAIL_HOST_PASSWORD = "FSFGIJPXGAXPIGIP"

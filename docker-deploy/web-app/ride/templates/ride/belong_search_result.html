@@ -25,11 +25,11 @@
                                 </form>
 
                                 <form method="get" action="/ride/your_ride">
-                                        <button class="btn btn-active" type="submit">View All Your Rides</button>
+                                        <button class="btn" type="submit">View All Your Rides</button>
                                 </form>
 
                                 <form method="get" action="/ride/belong_search">
-                                        <button class="btn" type="submit">Search All Your Rides</button>
+                                        <button class="btn btn-active" type="submit">Search All Your Rides</button>
                                 </form>
 
                                 {% if not vehicle.driver%}
@@ -41,13 +41,15 @@
                 </div>
         </div>
         <div class="col-8">
-                <h4>The ride you own:</h4>
+                <h4>Search result of your belonging rides</h4><br />
+                <h5>The ride you own:</h5>
+
                 <table class="table table-bordered table-hover table-sm">
                         <thead>
                                 <tr>
                                         <th>Owner</th>
                                         <th>Destination</th>
-                                        <th>Time</th>
+                                        <th>Arrival Time</th>
                                         <th>Passenger Number</th>
                                         <th>Required Vehicle Type</th>
                                         <th>Order Status</th>
@@ -74,7 +76,7 @@
                                         <td>{{ride.sharable}}</td>
                                         <td>{{ride.special_request}}</td>
                                         <td>{% for sharer in ride.sharer.all %}
-                                                <p>{{sharer.username}}</p>
+                                                <p>{{sharer.id}} ,</p>
                                                 {% endfor %}
                                         </td>
                                         <td>{{ride.driver.driver.username}}</td>
@@ -102,7 +104,7 @@
                         </tbody>
                 </table>
                 <br />
-                <h4>The ride you share:</h4>
+                <h5>The ride you share:</h5>
                 <table class="table table-bordered table-hover table-sm">
                         <thead>
                                 <tr>
@@ -118,7 +120,7 @@
                                         <th>Driver</th>
                                         <th>Car Type</th>
                                         <th>Plate Number</th>
-                                        <th>Leave</th>
+                                        <th>Leave the Ride</th>
                                 </tr>
                         </thead>
 

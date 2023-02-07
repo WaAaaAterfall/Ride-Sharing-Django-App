@@ -1,0 +1,20 @@
+2023/01/31 User can make a ride request with no passenager
+Fix:2023/02/02 Use positive integer field to avoid 0
+
+2023/02/01 User can join their own ride as a sharer
+Fix: 2023/02/01 Add an if-else statement in html to define if the request user is the owner of the ride
+
+2023/02/02 Users are not able to leave their share rides or delete their own rides
+Fix: 2023/02/03 Add a leave function and a delete function and refine the html form
+
+2023/02/04 User should only have access to their driver profile once they reqister as a driver, otherwise accessing will results in error
+Fix: Add if-else statement in html to check which button to display. If the user is not a driver, display the button to ask if they are gonna join as a driver. If the user is a driver, display the driver home hutton and direct them to the page of driver
+
+2023/02/04 User can join the ride that they already joined
+Fix: 2023/02/04 Add waring message in django view.py function and reject the multiple join request
+
+2023/02/04 User can confirm rides they are already in as an owner or a sharer
+Fix: write if-else statement to see if the user has already in the ride and display correct button
+ 
+2023/02/06 When the user input the date in wrong format, it should give an error warning
+(TODO: add a condition to define if it is a valid input)

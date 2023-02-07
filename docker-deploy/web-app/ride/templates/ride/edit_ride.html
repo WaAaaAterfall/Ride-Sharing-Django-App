@@ -1,23 +1,56 @@
 {% extends "ride/base.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
-    <h1>{{ user.username }}</h1>
-    <!-- <h5>{% if user.profile.is_driver == '1' %}
-            Driver
-        {% else %}
-            User
-        {% endif %}
-    </h5> -->
+<div class="row">
+    <div class="col-9">
+        <!-- Page Title -->
+        <h2>User Home</h2>
+    </div>
+    <div class="col-4">
+        <!--Sidebar content-->
+        <div class="row fixed">
+            <nav class="nav flex-column">
+                {% if vehicle.driver %}
+                <form method="get" action="/ride/driverhome">
+                    <button class="btn" type="submit">My Driver Page</button>
+                </form>
+                {% endif %}
 
-    <form method = "POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        <!-- <fieldset class="form-group">
-            <legend class = "border-bottom mb-4">Profile Info</legend> -->
-            {{ form|crispy }}
-        <!-- </fieldset> -->
-        
-        <div class="form-group">
-            <button class="btn btn-outpline-info" type="submit">Update</button>
+                <form method="get" action="/ride/newride">
+                    <button class="btn" type="submit">Request a Ride</button>
+                </form>
+
+                <form method="get" action="/ride/user_search_ride">
+                    <button class="btn" type="submit">Search All Open Rides</button>
+                </form>
+
+                <form method="get" action="/ride/your_ride">
+                    <button class="btn btn-active" type="submit">View All Your Rides</button>
+                </form>
+
+                <form method="get" action="/ride/belong_search">
+                    <button class="btn" type="submit">Search All Your Rides</button>
+                </form>
+
+                {% if not vehicle.driver%}
+                <form method="get" action="/ride/addvehicle">
+                    <button class="btn" type="submit">Join as a Driver</button>
+                </form>
+                {% endif %}
+            </nav>
         </div>
-    </form>
+    </div>
+    <div class="col-8">
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Edit your ride</legend>
+                {{ form|crispy }}
+            </fieldset>
+            <div class="form-group">
+                <button class="btn" type="submit">Update</button>
+            </div>
+        </form>
+    </div>
+</div>
 {%endblock content%}

@@ -1,18 +1,10 @@
 {% extends "ride/base.html" %}
 {% block content %}
-<h1>Welcome to our Ride & Share System</h1>
-<h2>You great journey starting here!</h2>
+<h1>ECE 568 Ride Sharing System</h1>
+<h3>Login or Register to join our ride sharing system.</h3>
+<br />
 
-<br>
-<p class = "main">
-  Please Login in first. Then you can see three choices on the menu, including "Start A Ride", "Find A Ride" and "Driver's Searching".
-</p>
+<br />
+<h3>Check your ride after logging in</h3>
 
-<form method=""get" action= "/login">
-  <button type="submit">Login</button>
-</form>
-
-<form method=""get" action= "{% url 'userhome' %}"">
-  <button type="submit">already log in? Go to your home page</button>
-</form>
 {% endblock content %}
