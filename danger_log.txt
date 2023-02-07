@@ -1,5 +1,5 @@
 2023/01/31 User can make a ride request with no passenager
-Fix:2023/02/02 Use positive integer field to avoid 0
+Fix:2023/02/02 Since there is no positiveintegerType in the forms, we added an check in the view.py to check if the input is 0
 
 2023/02/01 User can join their own ride as a sharer
 Fix: 2023/02/01 Add an if-else statement in html to define if the request user is the owner of the ride
@@ -16,5 +16,8 @@ Fix: 2023/02/04 Add waring message in django view.py function and reject the mul
 2023/02/04 User can confirm rides they are already in as an owner or a sharer
 Fix: write if-else statement to see if the user has already in the ride and display correct button
  
+2023/02/04 When a sharer join the th ride, the passenage r number of the ride should change as it will affect the driver searching for proper ride to confirm. Now the passenager number does not change when new sharer join in. 
+Fix: When a sharer joining in, the passenager number will add 1, and when a sharer leaving, the number will decrease 1. 
+
 2023/02/06 When the user input the date in wrong format, it should give an error warning
 (TODO: add a condition to define if it is a valid input)

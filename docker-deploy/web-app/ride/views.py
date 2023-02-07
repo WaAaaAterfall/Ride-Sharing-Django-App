@@ -82,6 +82,9 @@ def create_ride(request):
     if request.method == 'POST':
         form = RideCreateForm(request.POST)
         if form.is_valid():
+            if form.cleaned_data['passenger_num'] == 0:
+                messages.warning(request, f'The passanger number should be bigger than 0')
+                return render(request, 'ride/newride.html', {'form': form, 'vehicle': vehicle})
             ride.destination = form.cleaned_data['destination']
             ride.arrive_date = form.cleaned_data['arrive_date']
             ride.owner = request.user
@@ -122,7 +125,7 @@ def user_search_ride(request):
             return render(request, 'ride/ride_search_result.html', {'rides': ride, 'vehicle': vehicle})
     else:
         form = RideSearchForm()
-        return render(request, 'ride/user_search.html', {'form': form, 'vehicle': vehicle})
+    return render(request, 'ride/user_search.html', {'form': form, 'vehicle': vehicle})
 
 
 @login_required()
@@ -223,7 +226,7 @@ def select_belong_ride(request):
             return render(request, 'ride/belong_search_result.html', context)
     else:
         form = BelongSearchForm()
-        return render(request, 'ride/belong_search.html', {'form': form, 'vehicle': vehicle})
+    return render(request, 'ride/belong_search.html', {'form': form, 'vehicle': vehicle})
 
 
 @login_required()
@@ -249,7 +252,7 @@ def driver_search(request):
             return render(request, 'ride/driver_search_result.html', {'rides': rides})
     else:
         form = DriverSearchForm()
-        return render(request, 'ride/driver_search.html', {'form': form})
+    return render(request, 'ride/driver_search.html', {'form': form})
 
 
 @login_required()
@@ -268,7 +271,7 @@ def search_confirm(request):
             return render(request, 'ride/search_confirm_result.html', {'rides': ride})
     else:
         form = DriverSearchConfirmForm()
-        return render(request, 'ride/search_confirm.html', {'form': form})
+    return render(request, 'ride/search_confirm.html', {'form': form})
 
 
 @login_required()
