@@ -40,40 +40,40 @@ class RideCreateForm(forms.ModelForm):
 class RideSearchForm(forms.Form):
     destination = forms.CharField()
     earliest_time = forms.DateTimeField(
-        input_formats=['%Y-%m-%dT%H:%M'],\
+        input_formats=['%Y-%m-%d %H:%M'],\
         help_text='Format: 2023-02-01 12:00')
     latest_time = forms.DateTimeField(
-        input_formats=['%Y-%m-%dT%H:%M'],\
+        input_formats=['%Y-%m-%d %H:%M'],\
         help_text='Format: 2023-02-01 12:00')
     passenger_num = forms.IntegerField()
 
 class BelongSearchForm(forms.Form):
     destination = forms.CharField()
     earliest_time = forms.DateTimeField(
-        input_formats=['%Y-%m-%dT%H:%M'],\
+        input_formats=['%Y-%m-%d %H:%M'],\
         help_text='Format: 2023-02-01 12:00')
     latest_time = forms.DateTimeField(
-        input_formats=['%Y-%m-%dT%H:%M'],\
+        input_formats=['%Y-%m-%d %H:%M'],\
         help_text='Format: 2023-02-01 12:00')
 
 
 class DriverSearchForm(forms.Form):
     destination = forms.CharField()
     earliest_time = forms.DateTimeField(
-        input_formats=['%Y-%m-%dT%H:%M'],\
+        input_formats=['%Y-%m-%d %H:%M'],\
         help_text='Format: 2023-02-01 12:00')
     latest_time = forms.DateTimeField(
-        input_formats=['%Y-%m-%dT%H:%M'],\
+        input_formats=['%Y-%m-%d %H:%M'],\
         help_text='Format: 2023-02-01 12:00')
 
 
 class DriverSearchConfirmForm(forms.Form):
     destination = forms.CharField()
     earliest_time = forms.DateTimeField(
-        input_formats=['%Y-%m-%dT%H:%M'],\
+        input_formats=['%Y-%m-%d %H:%M'],\
         help_text='Format: 2023-02-01 12:00')
     latest_time = forms.DateTimeField(
-        input_formats=['%Y-%m-%dT%H:%M'],\
+        input_formats=['%Y-%m-%d %H:%M'],\
         help_text='Format: 2023-02-01 12:00')
 
 
