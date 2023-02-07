@@ -15,11 +15,11 @@
                 </form>
 
                 <form method="get" action="/ride/driver_ride">
-                    <button class="btn btn-active" type="submit">My Confirmed Rides</button>
+                    <button class="btn" type="submit">My Confirmed Rides</button>
                 </form>
 
                 <form method="get" action="/ride/search_confirm">
-                    <button class="btn" type="submit">Search Your Confirmed Rides</button>
+                    <button class="btn btn-active" type="submit">Search Your Confirmed Rides</button>
                 </form>
 
                 <form method="get" action="/ride/edit_vehicle">
@@ -33,30 +33,34 @@
         </div>
     </div>
     <div class="col-7">
-        <!--Body content-->
-        <h4>The ride you confirmed as a driver:</h4>
+
+        <h4>The search result of rides you confirmed as a driver</h4>
         <table class="table table-bordered table-hover table-sm">
             <thead>
                 <tr>
                     <th>Owner</th>
                     <th>Destination</th>
-                    <th>Time</th>
-                    <th>Passenger number</th>
+                    <th>Arrival-Time</th>
+                    <th>passenger-number</th>
+                    <th>Vehicle type</th>
+                    <th>Driver</th>
                     <th>Status</th>
                     <th>Sharable?</th>
                     <th>sharers</th>
-                    <th>Complete ride</th>
-                    <th>Cancel ride</th>
+                    <th>Complete the ride</th>
+                    <th>Cancel the ride</th>
                 </tr>
             </thead>
 
             <tbody>
-                {% for ride in driver_ride %}
+                {% for ride in rides %}
                 <tr>
                     <td>{{ride.owner.username}}</td>
                     <td>{{ride.destination}}</td>
                     <td>{{ride.arrive_date}}</td>
                     <td>{{ride.passenger_num}}</td>
+                    <td>{{ride.vehicle_type}}</td>
+                    <td>{{ride.driver.driver.username}}</td>
                     <td>{{ride.status}}</td>
                     <td>{{ride.sharable}}</td>
                     <td>{% for sharer in ride.sharer.all %}

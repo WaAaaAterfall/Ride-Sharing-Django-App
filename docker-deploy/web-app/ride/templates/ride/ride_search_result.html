@@ -1,54 +1,89 @@
 {% extends "ride/base.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
-    <h1>{{ user.username }}</h1>
+<div class="row">
+    <div class="col-9">
+        <!-- Page Title -->
+        <h2>User Home</h2>
+    </div>
+    <div class="col-4">
+        <!--Sidebar content-->
+        <div class="row fixed">
+            <nav class="nav flex-column">
+                {% if vehicle.driver %}
+                <form method="get" action="/ride/driverhome">
+                    <button class="btn" type="submit">My Driver Page</button>
+                </form>
+                {% endif %}
 
-    <p>The ride you own</p>
-    <table border = "1">
-                <thead>
-                        <tr>
-                                <th>ID</th>
-                                <th>Owner</th>
-                                <th>Destination</th>
-                                <th>Arrival-Time</th>
-                                <th>passenger-number</th>
-                                <th>Driver</th>
-                                <th>Status</th>
-                                <th>Sharable?</th>
-                                <th>sharers</th>
-                                <th>Join the ride</th>
+                <form method="get" action="/ride/newride">
+                    <button class="btn" type="submit">Request a Ride</button>
+                </form>
 
-                        </tr>
-                </thead>
-        
-                <tbody>
-                    {% for ride in rides %}
-                    <tr>
-                        <td>{{ride.id}}</td>
-                        <td>{{ride.owner.username}}</td>
-                        <td>{{ride.destination}}</td>
-                        <td>{{ride.arrive_date}}</td>
-                        <td>{{ride.passenger_num}}</td>
-                        <td>{{ride.driver.username}}</td>
-                        <td>{{ride.status}}</td>
-                        <td>{{ride.sharable}}</td>
-                        <td>{{ride.sharer}}</td>
-                        {% if ride.owner == user %}
-                            <td>You can't join your own ride</td>
-                        {% else %} 
-                            <td><form method="get" action= "{% url 'join_ride' ride.id %}">
-                                <button type="submit">Join</button>
-                            </form>
-                            </td>
-                        {% endif %}
-                    </tr>
-                    {% endfor %}
-                </tbody>
+                <form method="get" action="/ride/user_search_ride">
+                    <button class="btn btn-active" type="submit">Search All Open Rides</button>
+                </form>
+
+                <form method="get" action="/ride/your_ride">
+                    <button class="btn" type="submit">View All Your Rides</button>
+                </form>
+
+                <form method="get" action="/ride/belong_search">
+                    <button class="btn" type="submit">Search All Your Rides</button>
+                </form>
+
+                {% if not vehicle.driver%}
+                <form method="get" action="/ride/addvehicle">
+                    <button class="btn" type="submit">Join as a Driver</button>
+                </form>
+                {% endif %}
+            </nav>
+        </div>
+    </div>
+    <div class="col-8">
+        <h4>Search result of open rides</h4>
+        <table class="table table-bordered table-hover table-sm">
+            <thead>
+                <tr>
+                    <th>Owner</th>
+                    <th>Destination</th>
+                    <th>Time</th>
+                    <th>Passenger Number</th>
+                    <th>Driver</th>
+                    <th>Status</th>
+                    <th>Sharable?</th>
+                    <th>Sharers</th>
+                    <th>Join the ride</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for ride in rides %}
+                <tr>
+                    <td>{{ride.owner.username}}</td>
+                    <td>{{ride.destination}}</td>
+                    <td>{{ride.arrive_date}}</td>
+                    <td>{{ride.passenger_num}}</td>
+                    <td>{{ride.driver.driver.username}}</td>
+                    <td>{{ride.status}}</td>
+                    <td>{{ride.sharable}}</td>
+                    <td>{% for sharer in ride.sharer.all %}
+                        <p>{{sharer.username}}</p>
+                        {% endfor %}
+                    </td>
+                    {% if ride.owner == user %}
+                    <td>You can't join your own ride</td>
+                    {% else %}
+                    <td>
+                        <form method="get" action="{% url 'join_ride' ride.id %}">
+                            <button type="submit">Join</button>
+                        </form>
+                    </td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
         </table>
-    <p>   </p>
-        
-<form method="get" action= "/ride/userhome">
-        <button type="submit">Back to main</button>
-</form>
-
+    </div>
+</div>
 {%endblock content%}

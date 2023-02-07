@@ -21,7 +21,7 @@
                 </form>
 
                 <form method="get" action="/ride/user_search_ride">
-                    <button class="btn btn-active" type="submit">Search All Open Rides</button>
+                    <button class="btn" type="submit">Search All Open Rides</button>
                 </form>
 
                 <form method="get" action="/ride/your_ride">
@@ -29,7 +29,7 @@
                 </form>
 
                 <form method="get" action="/ride/belong_search">
-                    <button class="btn" type="submit">Search All Your Rides</button>
+                    <button class="btn btn-active" type="submit">Search All Your Rides</button>
                 </form>
 
                 {% if not vehicle.driver%}
@@ -37,27 +37,21 @@
                     <button class="btn" type="submit">Join as a Driver</button>
                 </form>
                 {% endif %}
-
             </nav>
         </div>
     </div>
     <div class="col-8">
-        <!--Body content-->
         <div class="content-section">
             <form method="POST">
                 {% csrf_token %}
                 <fieldset class="form-group">
-                    <legend class="border-bottom mb-4">Search all open requests</legend>
+                    <legend class="border-bottom mb-4">Search in rides you belong to</legend>
                     {{ form|crispy }}
-                    <br />
-                    <p>Note: the search results contains all rides whose passenger number is larger than the requested
-                        number</p>
                 </fieldset>
                 <div class="form-group">
                     <button class="btn" type="submit">Search</button>
                 </div>
             </form>
-
         </div>
     </div>
 </div>

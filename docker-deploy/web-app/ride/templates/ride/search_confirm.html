@@ -11,7 +11,7 @@
         <div class="row fixed">
             <nav class="nav flex-column">
                 <form method="get" action="/ride/driver_search">
-                    <button class="btn btn-active" type="submit">Search Open Ride Requests</button>
+                    <button class="btn" type="submit">Search Open Ride Requests</button>
                 </form>
 
                 <form method="get" action="/ride/driver_ride">
@@ -19,7 +19,7 @@
                 </form>
 
                 <form method="get" action="/ride/search_confirm">
-                    <button class="btn" type="submit">Search Your Confirmed Rides</button>
+                    <button class="btn btn-active" type="submit">Search Your Confirmed Rides</button>
                 </form>
 
                 <form method="get" action="/ride/edit_vehicle">
@@ -38,7 +38,7 @@
             <form method="POST">
                 {% csrf_token %}
                 <fieldset class="form-group">
-                    <legend class="border-bottom mb-4">Search all open requests</legend>
+                    <legend class="border-bottom mb-4">Search confirmed rides</legend>
                     {{ form|crispy }}
                 </fieldset>
                 <div class="form-group">
